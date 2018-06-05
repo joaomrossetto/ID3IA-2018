@@ -26,7 +26,7 @@ def getProporcaoPositiva(dados):
     for i in range (1, total):
         if dados[i][tam] == 'Yes':
             positivos += 1
-    proporcao = (positivos/(total-1))  #total-1 pq header entra na contagem do vetor
+    proporcao = round((positivos/(total-1)), 8)  #total-1 pq header entra na contagem do vetor
     return proporcao
 
 def getProporcaoNegativa(dados):
@@ -36,7 +36,7 @@ def getProporcaoNegativa(dados):
     for i in range (1, total):
         if dados[i][tam] == 'No':
             negativos += 1
-    proporcao = (negativos/(total-1)) #total-1 pq header entra na contagem do vetor
+    proporcao = round((negativos/(total-1)), 8) #total-1 pq header entra na contagem do vetor
     return proporcao
 
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
@@ -69,7 +69,7 @@ def calculaGanhoInformacao(dados):
         print(entropiasPorAtributo)
         valoresAtributo.append(getValoresAtributos(dados, dados[0][i]))
         print(valoresAtributo)
-    for x in range(0, len(valoresAtributo)-1):
+    for x in range(0, len(valoresAtributo)): #sepa é valoresAtributo -1
         entropiaTemporario = []
         for j in range(0,len(valoresAtributo[x])):
             entropiaTemporario.append(calculaEntropy(makeConjuntoAtributo(dados,dados[0][x],valoresAtributo[x][j])))  #armazenando entropia do conjunto de cada atributo
