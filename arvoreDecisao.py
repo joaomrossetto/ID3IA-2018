@@ -1,7 +1,5 @@
 def ValorMaisComun(Dados, Target, Atributos):
-
-	MaisComum= ""
-  
+	MaisComum= ""  
 	ganhaMais = getNumeroAparicoes(dados, atributo, '>50K')
 	ganhaMenos = getNumeroAparicoes(dados, atributo, '<=50K')
 
@@ -14,7 +12,6 @@ def ValorMaisComun(Dados, Target, Atributos):
 
 
 def MelhorAtributo (Dados, Target, Atributos):
-	
 	Melhor = Atributos[0]
 	Ganho = 0
 	numAtributos = len(Atributos)
@@ -32,7 +29,6 @@ def MelhorAtributo (Dados, Target, Atributos):
 
 
 def ArvoreDecisao(Dados, Target, Atributos):
-
 	#Se Attributes for vazio, retorne o nó Root, com rótulo = valor mais comum de Target_Attribute em Examples
 	if len(Atributos) - 1 <= 0 
 	
