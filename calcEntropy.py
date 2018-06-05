@@ -1,3 +1,4 @@
+from __future__ import division
 import math as mt
 import numpy as np
 import copy as cp
@@ -7,7 +8,7 @@ def calculaEntropy(dados):
     negativo = getProporcaoNegativa(dados)
     positivo = round(positivo, 8)
     negativo = round(negativo, 8)
-    entropia = ( -(positivo*mt.log(positivo,2)) - (negativo*mt.log(negativo,2)) )
+    entropia = ( -1*(positivo*mt.log(positivo,2)) - (negativo*mt.log(negativo,2)) )
     entropia = round(entropia, 8)
     return entropia
 
@@ -25,7 +26,7 @@ def getProporcaoPositiva(dados):
     for i in range (1, total):
         if dados[i][tam] == 'Yes':
             positivos += 1
-    proporcao = round(positivos/(total-1), 8) #total-1 pq header entra na contagem do vetor
+    proporcao = (positivos/(total-1))  #total-1 pq header entra na contagem do vetor
     return proporcao
 
 def getProporcaoNegativa(dados):
@@ -35,7 +36,7 @@ def getProporcaoNegativa(dados):
     for i in range (1, total):
         if dados[i][tam] == 'No':
             negativos += 1
-    proporcao = round(negativos/(total-1), 8) #total-1 pq header entra na contagem do vetor
+    proporcao = (negativos/(total-1)) #total-1 pq header entra na contagem do vetor
     return proporcao
 
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
@@ -63,12 +64,12 @@ def calculaGanhoInformacao(dados):
     numTotal = len(dados)-1
     valoresAtributo = []
     entropiasPorAtributo = []
-    for i in range(1,numAtributos-1): #comeca em 1 considerando o atual dataset, ha uma coluna que não se trata de atributo e é apenas indice dos dias e a ultima é o rotulo
+    for i in range(1,numAtributos-1): #comeca em 1 considerando o atual dataset, ha uma coluna que nao se trata de atributo e eh apenas indice dos dias e a ultima eh o rotulo
         entropiasPorAtributo.append(dados[0][i])
         print(entropiasPorAtributo)
         valoresAtributo.append(getValoresAtributos(dados, dados[0][i]))
         print(valoresAtributo)
-    for x in range(0, len(valoresAtributo)):
+    for x in range(0, len(valoresAtributo)-1):
         entropiaTemporario = []
         for j in range(0,len(valoresAtributo[x])):
             entropiaTemporario.append(calculaEntropy(makeConjuntoAtributo(dados,dados[0][x],valoresAtributo[x][j])))  #armazenando entropia do conjunto de cada atributo
