@@ -6,10 +6,18 @@ import copy as cp
 def calculaEntropy(dados):
     positivo = getProporcaoPositiva(dados)
     negativo = getProporcaoNegativa(dados)
-    positivo = round(positivo, 8)
-    negativo = round(negativo, 8)
-    entropia = ( -1*(positivo*mt.log(positivo,2)) - (negativo*mt.log(negativo,2)) )
-    entropia = round(entropia, 8)
+    positivo = round(positivo, 4)
+    negativo = round(negativo, 4)
+    if positivo == 0:
+        logAuxPos = 0
+    else:
+        logAuxPos = positivo * mt.log(positivo, 2)
+    if negativo == 0:
+        logAuxNeg = 0
+    else:
+        logAuxNeg = negativo * mt.log(negativo, 2)
+    entropia = ( -(logAuxPos) - (logAuxNeg))
+    entropia = round(entropia, 4)
     return entropia
 
 def getIndiceAtributo(dados, atributo):
@@ -82,8 +90,11 @@ def calculaGanhoInformacao(dados, atributo):
     ganhodeinfo=0
     for n in range(0,len(valoresAtributo)):
         ganhodeinfo = ganhodeinfo + calculaEntropiaTemporario(entropiaTemporario[n])
-
     print(ganhodeinfo)
+    entropiaFinal = ganhodeinfo + entropiaGeral
+    print(entropiaFinal)
+    return entropiaFinal
+
 
 
 
