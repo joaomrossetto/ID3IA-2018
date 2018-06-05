@@ -23,7 +23,7 @@ def getProporcaoPositiva(dados):
     tam = len(dados[0])-1
     total = len(dados)
     positivos = 0
-    for i in range (1, total):
+    for i in range (0, total):
         if dados[i][tam] == 'Yes':
             positivos += 1
     proporcao = round((positivos/(total-1)), 8)  #total-1 pq header entra na contagem do vetor
@@ -33,11 +33,19 @@ def getProporcaoNegativa(dados):
     tam = len(dados[0])-1
     total = len(dados)
     negativos = 0
-    for i in range (1, total):
+    for i in range (0, total):
         if dados[i][tam] == 'No':
             negativos += 1
     proporcao = round((negativos/(total-1)), 8) #total-1 pq header entra na contagem do vetor
     return proporcao
+
+def getNumeroAparicoes(dados, atributo, valorAtributo):
+    indice = getIndiceAtributo(dados,atributo)
+    contador = 0
+    for i in range (0, len(dados)):
+        if dados[i][indice] == valorAtributo:
+            contador += 1
+    return contador
 
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
     indice= getIndiceAtributo(dados,atributo)
@@ -58,20 +66,25 @@ def getValoresAtributos(dados, atributo):
     valores = set(valores)
     return sorted(valores)
 
-def calculaGanhoInformacao(dados):
+def calculaEntropiaTemporario(dados):
+    return (-1)*dados[2]*dados[1]
+
+def calculaGanhoInformacao(dados, atributo):
     entropiaGeral = calculaEntropy(dados)
-    numAtributos = len(dados[0])
     numTotal = len(dados)-1
-    valoresAtributo = []
-    entropiasPorAtributo = []
-    for i in range(1,numAtributos-1): #comeca em 1 considerando o atual dataset, ha uma coluna que nao se trata de atributo e eh apenas indice dos dias e a ultima eh o rotulo
-        entropiasPorAtributo.append(dados[0][i])
-        print(entropiasPorAtributo)
-        valoresAtributo.append(getValoresAtributos(dados, dados[0][i]))
-        print(valoresAtributo)
-    for x in range(0, len(valoresAtributo)): #sepa é valoresAtributo -1
-        entropiaTemporario = []
-        for j in range(0,len(valoresAtributo[x])):
-            entropiaTemporario.append(calculaEntropy(makeConjuntoAtributo(dados,dados[0][x],valoresAtributo[x][j])))  #armazenando entropia do conjunto de cada atributo
+    valoresAtributo = getValoresAtributos(dados, atributo)
+    entropiaTemporario = [[0 for x in range(0,3)] for y in range(0,len(valoresAtributo))]
+    for x in range(0, len(valoresAtributo)):
+        entropiaTemporario[x][0] = valoresAtributo[x]
+        entropiaTemporario[x][1] = calculaEntropy(makeConjuntoAtributo(dados, atributo, valoresAtributo[x]))
+        entropiaTemporario[x][2] = (getNumeroAparicoes(dados,atributo,valoresAtributo[x])/numTotal)
+    print(entropiaTemporario)
+    ganhodeinfo=0
+    for n in range(0,len(valoresAtributo)):
+        ganhodeinfo = ganhodeinfo + calculaEntropiaTemporario(entropiaTemporario[n])
+
+    print(ganhodeinfo)
+
+
 
 
