@@ -44,12 +44,12 @@ def ArvoreDecisao(Dados, Target, Atributos):
 	a = ""
 
 	for i range(0,len(dados))
-		if imaior > 0 && imenor > 0:
+		if imaior > 0 and imenor > 0:
 			break
 		else if Dados[i][indice] == maior
-			imaior ++
+			imaior = imaior + 1
 		else if Dados[i][indice] == menor
-			imenor ++
+			imenor = imenor + 1
 
 	#### se tudo for igual 
 	if imenor == len(dados):
