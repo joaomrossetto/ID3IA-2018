@@ -13,3 +13,7 @@ print(calc.getProporcaoNegativa(calc.makeConjuntoAtributo(jogaTenis,"outlook","R
 #valoresAtributo = calc.getValoresAtributos(jogaTenis,"temp")
 #print(valoresAtributo[0])
 calc.calculaGanhoInformacao(jogaTenis,"outlook")
+calc.calculaGanhoInformacao(jogaTenis,"temp")
+calc.calculaGanhoInformacao(jogaTenis,"humidity")
+calc.calculaGanhoInformacao(jogaTenis,"wind")
+

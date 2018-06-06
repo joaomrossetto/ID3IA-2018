@@ -60,6 +60,7 @@ def makeConjuntoAtributo(dados,atributo,valorAtributo):
     tam = len(dados)
     j = 0
     novoconjunto = []
+    novoconjunto.append(dados[0])
     for i in range(1, tam):
         if dados[i][indice] == valorAtributo:
             novoconjunto.append(dados[i])
@@ -83,9 +84,10 @@ def calculaGanhoInformacao(dados, atributo):
     valoresAtributo = getValoresAtributos(dados, atributo)
     entropiaTemporario = [[0 for x in range(0,3)] for y in range(0,len(valoresAtributo))]
     for x in range(0, len(valoresAtributo)):
+        print(makeConjuntoAtributo(dados, atributo, valoresAtributo[x]))
         entropiaTemporario[x][0] = valoresAtributo[x]
         entropiaTemporario[x][1] = calculaEntropy(makeConjuntoAtributo(dados, atributo, valoresAtributo[x]))
-        entropiaTemporario[x][2] = (getNumeroAparicoes(dados,atributo,valoresAtributo[x])/numTotal)
+        entropiaTemporario[x][2] = round(getNumeroAparicoes(dados,atributo,valoresAtributo[x])/numTotal, 4)
     print(entropiaTemporario)
     ganhodeinfo=0
     for n in range(0,len(valoresAtributo)):
