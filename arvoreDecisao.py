@@ -16,12 +16,16 @@ def ValorMaisComum(Dados, Target, Atributos):
 	return MaisComum
 
 
-def MelhorAtributo (Dados, Target, Atributos):
+def MelhorAtributo (Dados,Atributos):
 	Melhor = Atributos[0]
 	Ganho = 0
-	numAtributos = len(Atributos)
+	numAtributos = len(Atributos) -1 
 	for i in range(0, numAtributos):
-		NovoGanho = calc.calculaGanhoInformacao(Dados, Target)
+		if i==0:
+		   Ganho = calc.calculaGanhoInformacao(Dados, Atributos[i])
+		NovoGanho = calc.calculaGanhoInformacao(Dados, Atributos[i])
+		print(Atributos[i])
+		print(NovoGanho)
 		if NovoGanho > Ganho:
 			Ganho = NovoGanho
 			Melhor = Atributos[i]
@@ -44,7 +48,7 @@ def ArvoreDecisao(Dados, Target, Atributos):
 	imaior = 0
 	imenor = 0
 	a = ""
-	for i in range (0,len(Dados)):
+	for i in range (1,len(Dados)):
 		if imaior > 0 and imenor > 0:
 			break
 		elif Dados[i][indice] == maior:
@@ -52,34 +56,38 @@ def ArvoreDecisao(Dados, Target, Atributos):
 		elif Dados[i][indice] == menor:
 			imenor = imenor + 1
 	#### se tudo for igual 
-	if imenor == len(Dados):
-		return maior
-	elif imaior == len(Dados):
+	if imenor == len(Dados) -1 :
+		print(menor)
 		return menor
+	elif imaior == len(Dados) -1:
+		print(maior)
+		return maior
 
 	##se acabarem os atributos
-	if len(Atributos) == 0:
+	if len(Atributos) == 1:
 		return ValorMaisComum(Dados,Target,Atributos)
 	else: 
-		a = MelhorAtributo(Dados, Target, Atributos)
+		a = MelhorAtributo(Dados,Atributos)
 		Root = Node(a)
-
-	Valores_A = calc.getValoresAtributos(Dados,a)
+		print("Atributo: " + a)
+		Valores_A = calc.getValoresAtributos(Dados,a)
 	#for ind in range(0,len(Atributos)):
 	#	if Atributos[ind]==a:
 	#		break
 
-	Subconjunto=[]
+		
 
-	for y in range (0,len(Valores_A)):
-		Subconjunto = calc.makeConjuntoAtributo(Dados,a,Valores_A[y])
-		if len(Subconjunto) == 0:
-			No = Node(ValorMaisComum(Dados,Target,Atributos), parent=Root)
-		else:
-
-			ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a))
-
-	return No 
+		for y in range (0,len(Valores_A)):
+			Subconjunto=[]
+			Subconjunto = calc.makeConjuntoAtributo(Dados,a,Valores_A[y])
+			print("Valor: " +Valores_A[y])
+			if len(Subconjunto) == 1:
+				x = Node(ValorMaisComum(Dados,Target,Atributos), parent=Root)
+				print(ValorMaisComum(Dados,Target,Atributos))
+			else:
+				x = Node(ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a)), parent=Root)
+	    
+	return Node 
 
 
 
