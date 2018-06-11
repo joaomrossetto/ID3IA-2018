@@ -58,7 +58,6 @@ def getNumeroAparicoes(dados, atributo, valorAtributo):
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
     indice= getIndiceAtributo(dados,atributo)
     tam = len(dados)
-    j = 0
     novoconjunto = []
     novoconjunto.append(dados[0])
     for i in range(1, tam):
@@ -96,8 +95,3 @@ def calculaGanhoInformacao(dados, atributo):
     entropiaFinal = ganhodeinfo + entropiaGeral
     print(entropiaFinal)
     return entropiaFinal
-
-
-
-
-

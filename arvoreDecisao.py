@@ -27,6 +27,14 @@ def MelhorAtributo (Dados, Target, Atributos):
 			Melhor = Atributos[i]
 	return Melhor
 
+def Excluir_vetor(vetor,atributo):
+    tam = len(vetor)
+    novoconjunto = []
+    for i in range(0, tam):
+        if vetor[i] != atributo:
+            novoconjunto.append(vetor[i])
+    return novoconjunto
+
 
 
 def ArvoreDecisao(Dados, Target, Atributos):
@@ -69,7 +77,7 @@ def ArvoreDecisao(Dados, Target, Atributos):
 			No = Node(ValorMaisComum(Dados,Target,Atributos), parent=Root)
 		else:
 
-			ArvoreDecisao(Subconjunto,Target,Atributos.delete(a))
+			ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a))
 
 	return No 
 
