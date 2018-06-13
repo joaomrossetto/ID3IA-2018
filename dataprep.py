@@ -1,30 +1,17 @@
 from __future__ import division
 import pandas as pd 
 import numpy as np
-
 from random import sample
 
 def limpa_base():
-    adults = pd.read_csv('adult.data.txt', sep=r'\s*,\s*', na_values="?", engine='python', names = ['age',
-    'workclass',
-    'fnlwgt',
-    'education',
-    'education-num',
-    'marital-status',
-    'occupation',
-    'relationship',
-    'race',
-    'sex',
-    'capital-gain',
-    'capital-loss',
-    'hours-per-week',
-    'native-country',
-    '50k-year'])
-
+    adults = pd.read_csv('adult_discretizado.data.txt', sep=r'\s*,\s*', na_values="?", engine='python')
+    print(adults)
+    print('Tamanho inicial da base: %d \n' % len(adults))
     adults.dropna(how='any',inplace = True)
-    print adults
-    return adults
-    #print(adults.isnull().sum())
+    adults = adults.reset_index(drop=True)
+    print('Tamanho apos limpeza: %d \n' % len(adults))
+    print(adults)
+
 
 def cria_folds(dados, k):
     folds = []
@@ -35,8 +22,8 @@ def cria_folds(dados, k):
     for i in range(k):
         amostra = dados.sample(tam_fold)
         folds.append(amostra)
-        print('%s \n' % amostra)
-        print('%s \n' % amostra.index)
+        print('Amostra: %s \n' % amostra)
+        print('Amostra.index: %s \n' % amostra.index)
         print(i)
         for row in amostra.itertuples():
             #print(row)
@@ -64,8 +51,10 @@ def validacao_cruzada(folds):
 
 
 base = limpa_base()
-folds = cria_folds(base[:107],3)
-print (folds)
+#folds = cria_folds(base,3)
+#print (folds)
+# ordena_df(base, 'age')
+
 
 
 
