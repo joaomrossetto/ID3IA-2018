@@ -13,8 +13,15 @@ class Arvore:
         return self.__nos
 
     def novo_no(self, atributo, mae=None,aresta=None):
-        no = Node.No(atributo,aresta)
-        self.__nos[atributo] = no
+        
+
+        if atributo == 'Yes' or atributo== 'No':
+           no = Node.No(atributo + "|" + aresta + "|" + mae,aresta)
+           self.__nos[atributo + "|" + aresta + "|" + mae] = no
+        else:
+           no = Node.No(atributo,aresta)
+           self.__nos[atributo] = no 
+        
         if mae is not None:
            self.__nos[mae].filhos.append(no)
 
