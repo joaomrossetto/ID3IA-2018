@@ -3,7 +3,9 @@ import math as mt
 import numpy as np
 import copy as cp
 import calcEntropy as calc
-from anytree import Node, RenderTree
+
+
+
 
 def ValorMaisComum(Dados, Target, Atributos):
 	MaisComum = ''
@@ -41,13 +43,14 @@ def Excluir_vetor(vetor,atributo):
 
 
 
-def ArvoreDecisao(Dados, Target, Atributos):
+def ArvoreDecisao(Dados, Target, Atributos,Tree):
 	indice = calc.getIndiceAtributo(Dados,Target)
 	maior = "Yes"
 	menor = "No"
 	imaior = 0
 	imenor = 0
 	a = ""
+	Root = ""
 	for i in range (1,len(Dados)):
 		if imaior > 0 and imenor > 0:
 			break
@@ -57,18 +60,19 @@ def ArvoreDecisao(Dados, Target, Atributos):
 			imenor = imenor + 1
 	#### se tudo for igual 
 	if imenor == len(Dados) -1 :
-		print(menor)
+		#return Tree.novo_no(menor)
 		return menor
 	elif imaior == len(Dados) -1:
-		print(maior)
+		#return Tree.novo_no(maior)
 		return maior
 
 	##se acabarem os atributos
 	if len(Atributos) == 1:
 		return ValorMaisComum(Dados,Target,Atributos)
+		#return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos))
 	else: 
 		a = MelhorAtributo(Dados,Atributos)
-		Root = Node(a)
+		Root = Tree.novo_no(a)
 		print("Atributo: " + a)
 		Valores_A = calc.getValoresAtributos(Dados,a)
 	#for ind in range(0,len(Atributos)):
@@ -82,12 +86,12 @@ def ArvoreDecisao(Dados, Target, Atributos):
 			Subconjunto = calc.makeConjuntoAtributo(Dados,a,Valores_A[y])
 			print("Valor: " +Valores_A[y])
 			if len(Subconjunto) == 1:
-				x = Node(ValorMaisComum(Dados,Target,Atributos), parent=Root)
 				print(ValorMaisComum(Dados,Target,Atributos))
+				return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos),a,Valores_A[y])	
 			else:
-				x = Node(ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a)), parent=Root)
+				Tree.novo_no(ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Tree),a,Valores_A[y])
 	    
-	return Node 
+	return Root 
 
 
 
