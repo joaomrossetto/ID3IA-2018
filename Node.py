@@ -1,7 +1,7 @@
 class No:
     def __init__(self, atributo,aresta):
         self.__atributo = atributo
-        self.__aresta=aresta
+        self.__aresta=[]
         self.__filhos = []
 
     @property

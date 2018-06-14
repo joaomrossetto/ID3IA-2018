@@ -29,13 +29,21 @@ class Arvore:
     
 
     def display(self, identifier, depth=_ROOT):
+ 
         fil = self.__nos[identifier].filhos
+        arestas = self.__nos[identifier].aresta
         if depth == _ROOT:
             print("{0}".format(identifier))
         else:
             print("\t"*depth, "{0}".format(identifier))
 
         depth += 1
+        i=0
         for f in fil:
-            self.display(f.atributo, depth)  # recursive call
+            print("Aresta: " + arestas[i])
+            i = i+1
+            if f == "Yes" or f ==  "No":
+                print("\t" + f)
+            else:
+                self.display(f.atributo, depth)  # recursive call
     
