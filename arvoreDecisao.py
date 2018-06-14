@@ -89,7 +89,9 @@ def ArvoreDecisao(Dados, Target, Atributos,Tree):
 				print(ValorMaisComum(Dados,Target,Atributos))
 				return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos),a,Valores_A[y])	
 			else:
-				Tree.novo_no(ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Tree),a,Valores_A[y])
+				Tree.nos[Root.atributo].aresta.append(Valores_A[y])
+				x = ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Tree)
+				Tree.nos[Root.atributo].filhos.append(x)
 	    
 	return Root 
 
