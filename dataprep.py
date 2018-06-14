@@ -11,6 +11,7 @@ def limpa_base():
     adults = adults.reset_index(drop=True)
     print('Tamanho apos limpeza: %d \n' % len(adults))
     print(adults)
+    adults.to_csv('adult_dataprep.data.txt', sep=',', index=False)
 
 
 def cria_folds(dados, k):
