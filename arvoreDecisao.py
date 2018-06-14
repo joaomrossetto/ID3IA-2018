@@ -45,8 +45,8 @@ def Excluir_vetor(vetor,atributo):
 
 def ArvoreDecisao(Dados, Target, Atributos,Tree):
 	indice = calc.getIndiceAtributo(Dados,Target)
-	maior = "Yes"
-	menor = "No"
+	maior = "<=50K"
+	menor = ">50K"
 	imaior = 0
 	imenor = 0
 	a = ""

@@ -15,7 +15,7 @@ class Arvore:
     def novo_no(self, atributo, mae=None,aresta=None):
         
 
-        if atributo == 'Yes' or atributo== 'No':
+        if atributo == '<=50K' or atributo== '>50K':
            no = Node.No(atributo + "|" + aresta + "|" + mae,aresta)
            self.__nos[atributo + "|" + aresta + "|" + mae] = no
         else:
@@ -29,7 +29,7 @@ class Arvore:
     
 
     def display(self, identifier, depth=_ROOT):
- 
+        
         fil = self.__nos[identifier].filhos
         arestas = self.__nos[identifier].aresta
         if depth == _ROOT:
@@ -42,7 +42,7 @@ class Arvore:
         for f in fil:
             print("Aresta: " + arestas[i])
             i = i+1
-            if f == "Yes" or f ==  "No":
+            if f == "<=50K" or f ==  ">50K":
                 print("\t" + f)
             else:
                 self.display(f.atributo, depth)  # recursive call

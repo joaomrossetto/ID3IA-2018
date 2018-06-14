@@ -5,7 +5,7 @@ import copy as cp
 
 def calculaEntropy(dados):
     positivo = getProporcaoPositiva(dados)
-    negativo = getProporcaoNegativa(dados)
+    negativo = 1 - positivo
     positivo = round(positivo, 4)
     negativo = round(negativo, 4)
     if positivo == 0:
@@ -32,7 +32,7 @@ def getProporcaoPositiva(dados):
     total = len(dados)
     positivos = 0
     for i in range (0, total):
-        if dados[i][tam] == 'Yes':
+        if dados[i][tam] == '<=50K':
             positivos += 1
     proporcao = round((positivos/(total-1)), 8)  #total-1 pq header entra na contagem do vetor
     return proporcao
@@ -42,7 +42,7 @@ def getProporcaoNegativa(dados):
     total = len(dados)
     negativos = 0
     for i in range (0, total):
-        if dados[i][tam] == 'No':
+        if dados[i][tam] == '>50K':
             negativos += 1
     proporcao = round((negativos/(total-1)), 8) #total-1 pq header entra na contagem do vetor
     return proporcao
