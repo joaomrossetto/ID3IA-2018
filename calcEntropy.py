@@ -6,8 +6,8 @@ import copy as cp
 def calculaEntropy(dados):
     positivo = getProporcaoPositiva(dados)
     negativo = getProporcaoNegativa(dados)
-    positivo = round(positivo, 4)
-    negativo = round(negativo, 4)
+    positivo = round(positivo, 6)
+    negativo = round(negativo, 6)
     if positivo == 0:
         logAuxPos = 0
     else:
@@ -17,7 +17,7 @@ def calculaEntropy(dados):
     else:
         logAuxNeg = negativo * mt.log(negativo, 2)
     entropia = ( -(logAuxPos) - (logAuxNeg))
-    entropia = round(entropia, 4)
+    entropia = round(entropia,6)
     return entropia
 
 def getIndiceAtributo(dados, atributo):
@@ -32,9 +32,10 @@ def getProporcaoPositiva(dados):
     total = len(dados)
     positivos = 0
     for i in range (0, total):
-        if dados[i][tam] == 'Yes':
+        if dados[i][tam] == '>50K':
             positivos += 1
-    proporcao = round((positivos/(total-1)), 8)  #total-1 pq header entra na contagem do vetor
+    proporcao = positivos/(total-1)  #total-1 pq header entra na contagem do vetor
+    proporcao = round(proporcao,6)
     return proporcao
 
 def getProporcaoNegativa(dados):
@@ -42,9 +43,10 @@ def getProporcaoNegativa(dados):
     total = len(dados)
     negativos = 0
     for i in range (0, total):
-        if dados[i][tam] == 'No':
+        if dados[i][tam] == '<=50K':
             negativos += 1
-    proporcao = round((negativos/(total-1)), 8) #total-1 pq header entra na contagem do vetor
+    proporcao = negativos/(total-1) #total-1 pq header entra na contagem do vetor
+    proporcao = round(proporcao,6)
     return proporcao
 
 def getNumeroAparicoes(dados, atributo, valorAtributo):
@@ -53,6 +55,7 @@ def getNumeroAparicoes(dados, atributo, valorAtributo):
     for i in range (0, len(dados)):
         if dados[i][indice] == valorAtributo:
             contador += 1
+    contador = round(contador,6)
     return contador
 
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
@@ -75,7 +78,9 @@ def getValoresAtributos(dados, atributo):
     return sorted(valores)
 
 def calculaEntropiaTemporario(dados):
-    return (-1)*dados[2]*dados[1]
+    aux = (-1)*dados[2]*dados[1]
+    aux = round(aux,6)
+    return aux
 
 def calculaGanhoInformacao(dados, atributo):
     entropiaGeral = calculaEntropy(dados)
@@ -85,13 +90,13 @@ def calculaGanhoInformacao(dados, atributo):
     for x in range(0, len(valoresAtributo)):
         #print(makeConjuntoAtributo(dados, atributo, valoresAtributo[x]))
         entropiaTemporario[x][0] = valoresAtributo[x]
-        entropiaTemporario[x][1] = calculaEntropy(makeConjuntoAtributo(dados, atributo, valoresAtributo[x]))
-        entropiaTemporario[x][2] = round(getNumeroAparicoes(dados,atributo,valoresAtributo[x])/numTotal, 4)
+        entropiaTemporario[x][1] = round(calculaEntropy(makeConjuntoAtributo(dados, atributo, valoresAtributo[x])),6)
+        entropiaTemporario[x][2] = round(getNumeroAparicoes(dados,atributo,valoresAtributo[x])/numTotal, 6)
     #print(entropiaTemporario)
     ganhodeinfo=0
     for n in range(0,len(valoresAtributo)):
         ganhodeinfo = ganhodeinfo + calculaEntropiaTemporario(entropiaTemporario[n])
     #print(ganhodeinfo)
-    entropiaFinal = ganhodeinfo + entropiaGeral
-    #print(entropiaFinal)
+    entropiaFinal = round(ganhodeinfo,6)+ round(entropiaGeral,6)
+    print(entropiaFinal)
     return entropiaFinal
