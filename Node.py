@@ -1,10 +1,9 @@
-class No:
-    def __init__(self, atributo,aresta):
-        self.__atributo = atributo
-        self.__aresta=[]
-        self.__filhos = []
+class Node:
+    def __init__(self):
+        self.__atributo = None
+        self.__filhos = {}
 
-    @property
+    '''@property
     def atributo(self):
         return self.__atributo
 
@@ -17,4 +16,4 @@ class No:
         return self.__filhos
 
     def novo_filho(self, No):
-        self.__filhos.append(No)
+        self.__filhos.append(No)'''

@@ -92,6 +92,6 @@ def calculaGanhoInformacao(dados, atributo):
     for n in range(0,len(valoresAtributo)):
         ganhodeinfo = ganhodeinfo + calculaEntropiaTemporario(entropiaTemporario[n])
     #print(ganhodeinfo)
-    entropiaFinal = ganhodeinfo + entropiaGeral
+    entropiaFinal = round(ganhodeinfo,6) + round(entropiaGeral,6)
     #print(entropiaFinal)
     return entropiaFinal

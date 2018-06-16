@@ -3,6 +3,7 @@ import math as mt
 import numpy as np
 import copy as cp
 import calcEntropy as calc
+from node import Node
 
 
 
@@ -26,8 +27,8 @@ def MelhorAtributo (Dados,Atributos):
 		if i==0:
 		   Ganho = calc.calculaGanhoInformacao(Dados, Atributos[i])
 		NovoGanho = calc.calculaGanhoInformacao(Dados, Atributos[i])
-		print(Atributos[i])
-		print(NovoGanho)
+		#print(Atributos[i])
+		#print(NovoGanho)
 		if NovoGanho > Ganho:
 			Ganho = NovoGanho
 			Melhor = Atributos[i]
@@ -43,14 +44,16 @@ def Excluir_vetor(vetor,atributo):
 
 
 
-def ArvoreDecisao(Dados, Target, Atributos,Tree):
+def ArvoreDecisao(Dados, Target, Atributos,default):
+	Root = Node()
+
+
 	indice = calc.getIndiceAtributo(Dados,Target)
 	maior = "<=50K"
 	menor = ">50K"
 	imaior = 0
 	imenor = 0
 	a = ""
-	Root = ""
 	for i in range (1,len(Dados)):
 		if imaior > 0 and imenor > 0:
 			break
@@ -72,8 +75,9 @@ def ArvoreDecisao(Dados, Target, Atributos,Tree):
 		#return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos))
 	else: 
 		a = MelhorAtributo(Dados,Atributos)
-		Root = Tree.novo_no(a)
-		print("Atributo: " + a)
+		Root.atributo = a
+		filhos = {} 
+		#print("Atributo: " + a)
 		Valores_A = calc.getValoresAtributos(Dados,a)
 	#for ind in range(0,len(Atributos)):
 	#	if Atributos[ind]==a:
@@ -84,17 +88,30 @@ def ArvoreDecisao(Dados, Target, Atributos,Tree):
 		for y in range (0,len(Valores_A)):
 			Subconjunto=[]
 			Subconjunto = calc.makeConjuntoAtributo(Dados,a,Valores_A[y])
-			print("Valor: " +Valores_A[y])
+			#print("Valor: " +Valores_A[y])
 			if len(Subconjunto) == 1:
-				print(ValorMaisComum(Dados,Target,Atributos))
-				return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos),a,Valores_A[y])	
+				#print(ValorMaisComum(Dados,Target,Atributos))
+				return Root	
 			else:
-				Tree.nos[Root.atributo].aresta.append(Valores_A[y])
-				x = ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Tree)
-				Tree.nos[Root.atributo].filhos.append(x)
+				filhos[Valores_A[y]] = ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Root)
+				Root.filhos = filhos
 	    
 	return Root 
 
+
+def display(Root):
+        
+		if Root == "<=50K" or Root ==  ">50K":	
+			print("\t" + Root)
+		else: 
+			fil = Root.filhos
+			print(Root.atributo)
+			for f in fil:
+				print(f)
+				if f == "<=50K" or f ==  ">50K":
+					print("\t" + f)
+				else:
+					display(Root.filhos[f])  # recursive call
 
 
 	
