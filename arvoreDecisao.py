@@ -3,7 +3,7 @@ import math as mt
 import numpy as np
 import copy as cp
 import calcEntropy as calc
-from node import Node
+from Node import Node
 
 
 
@@ -114,4 +114,31 @@ def display(Root):
 					display(Root.filhos[f])  # recursive call
 
 
-	
+def classificador(Dados,Arvore):
+    numeroExemplos = len(Dados)
+    numAcertos = 0
+    acuracia = 0
+    indiceClasse = calc.getIndiceAtributo(Dados,'X50k.year')
+    for i in range(1,len(Dados)):
+        classeExemplo = Dados[i][indiceClasse]
+        classeReal = avaliaExemplo(Arvore, Dados[i], Dados)
+        if classeExemplo == classeReal:
+            numAcertos += 1
+        acuracia = numAcertos/(numeroExemplos-1)
+    print("A acuracia foi de :",acuracia)
+    return acuracia
+
+
+def avaliaExemplo(NoRaiz, Exemplo, Dados):
+    nosVisitados = 0
+    while len(NoRaiz.filhos) != 0:
+        atributoNo = NoRaiz.atributo
+        indiceAtributo = calc.getIndiceAtributo(Dados,atributoNo)
+        valorAtributoExemplo = Exemplo[indiceAtributo]
+        if not valorAtributoExemplo in NoRaiz.filhos.keys():
+            valorAtributoExemplo = NoRaiz.filhos.keys()[0]
+        NoRaiz = NoRaiz.filhos[valorAtributoExemplo]
+        nosVisitados += 1
+        if NoRaiz == '<=50K' or NoRaiz == '>50K':
+             return NoRaiz
+    return NoRaiz

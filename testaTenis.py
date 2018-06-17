@@ -4,16 +4,16 @@ import numpy as np
 import calcEntropy as calc
 import arvoreDecisao as decisao
 
-jogaTenis = pd.read_csv('adult_dataprep.data.txt', sep=',', header = None)
-jogaTenis = jogaTenis.values
-print(jogaTenis)
+adults = pd.read_csv('adult_dataprep.data.txt', sep=',', header = None)
+adults = adults.values
 #indiceDoAtributo = calc.getIndiceAtributo(jogaTenis, 'temp')
 #print(indiceDoAtributo)
 #arvore = Tree.Arvore()
 
-Root=decisao.ArvoreDecisao(jogaTenis,'X50k.year',jogaTenis[0],0)
-
-decisao.display(Root)
+Root = decisao.ArvoreDecisao(adults,'X50k.year', adults[0], 0)
+#decisao.display(Root)
+print(Root.filhos)
+decisao.classificador(adults, Root)
 
 #arvore.display("relationship")
 #print(calc.makeConjuntoAtributo(jogaTenis,"outlook","Overcast"))
