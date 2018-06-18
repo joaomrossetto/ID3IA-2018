@@ -1,4 +1,4 @@
-import Node
+from Adults import Node
 
 (_ROOT, _DEPTH, _BREADTH) = range(3)
 
@@ -16,10 +16,10 @@ class Arvore:
         
 
         if atributo == '<=50K' or atributo== '>50K':
-           no = Node.No(atributo + "|" + aresta + "|" + mae,aresta)
+           no = Node.No(atributo + "|" + aresta + "|" + mae, aresta)
            self.__nos[atributo + "|" + aresta + "|" + mae] = no
         else:
-           no = Node.No(atributo,aresta)
+           no = Node.No(atributo, aresta)
            self.__nos[atributo] = no 
         
         if mae is not None:

@@ -9,6 +9,7 @@ class Node:
 
     @property
     def aresta(self):
+    def aresta(self):
         return self.__aresta
 
     @property

@@ -1,4 +1,4 @@
-import Node
+from Adults import Node
 
 (_ROOT, _DEPTH, _BREADTH) = range(3)
 

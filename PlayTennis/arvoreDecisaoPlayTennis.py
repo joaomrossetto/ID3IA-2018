@@ -1,9 +1,6 @@
 from __future__ import division
-import math as mt
-import numpy as np
-import copy as cp
-import calcEntropy as calc
-from Node import Node
+from Adults import calcEntropy as calc
+from Adults.Node import Node
 
 
 def ValorMaisComum(Dados, Target, Atributos):
