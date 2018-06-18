@@ -3,6 +3,7 @@ import math as mt
 import numpy as np
 import copy as cp
 import calcEntropy as calc
+from Node import Node
 
 
 def ValorMaisComum(Dados, Target, Atributos):
@@ -23,13 +24,12 @@ def MelhorAtributo(Dados, Atributos):
     for i in range(0, numAtributos):
         if i == 0:
             Ganho = calc.calculaGanhoInformacao(Dados, Atributos[i])
-            #print('Ganho é = ', Ganho, 'no valor', Atributos[i])
         NovoGanho = calc.calculaGanhoInformacao(Dados, Atributos[i])
-        #print('NovoGanho é =',NovoGanho, 'no valor', Atributos[i])
+        # print(Atributos[i])
+        # print(NovoGanho)
         if NovoGanho > Ganho:
             Ganho = NovoGanho
             Melhor = Atributos[i]
-    #print('o melhor atributo é', Melhor)
     return Melhor
 
 
@@ -42,14 +42,15 @@ def Excluir_vetor(vetor, atributo):
     return novoconjunto
 
 
-def ArvoreDecisao(Dados, Target, Atributos, Tree):
+def ArvoreDecisao(Dados, Target, Atributos, default):
+    Root = Node()
+
     indice = calc.getIndiceAtributo(Dados, Target)
-    maior = "Yes"
-    menor = "No"
+    maior = "No"
+    menor = "Yes"
     imaior = 0
     imenor = 0
     a = ""
-    Root = ""
     for i in range(1, len(Dados)):
         if imaior > 0 and imenor > 0:
             break
@@ -71,24 +72,99 @@ def ArvoreDecisao(Dados, Target, Atributos, Tree):
     # return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos))
     else:
         a = MelhorAtributo(Dados, Atributos)
-        Root = Tree.novo_no(a)
-        #print("Atributo: " + a)
+        Root.atributo = a
+        filhos = {}
+        # print("Atributo: " + a)
         Valores_A = calc.getValoresAtributos(Dados, a)
         # for ind in range(0,len(Atributos)):
-        #	if Atributos[ind]==a:
-        #		break
+        #   if Atributos[ind]==a:
+        #       break
 
         for y in range(0, len(Valores_A)):
             Subconjunto = []
             Subconjunto = calc.makeConjuntoAtributo(Dados, a, Valores_A[y])
-            print("Atributo: " + a)
-            print("Valor: " + Valores_A[y])
+            # print("Valor: " +Valores_A[y])
             if len(Subconjunto) == 1:
-                print(ValorMaisComum(Dados, Target, Atributos))
+                # print(ValorMaisComum(Dados,Target,Atributos))
+                return Root
             else:
-                Tree.novo_no(ArvoreDecisao(Subconjunto, Target, Excluir_vetor(Atributos, a), Tree), a, Valores_A[y])
+                filhos[Valores_A[y]] = ArvoreDecisao(Subconjunto, Target, Excluir_vetor(Atributos, a), Root)
+                Root.filhos = filhos
 
     return Root
+
+
+def display(Root):
+    if Root == "No" or Root == "Yes":
+        print("\t" + Root)
+    else:
+        fil = Root.filhos
+        print(Root.atributo)
+        for f in fil:
+            print(f)
+            if f == "No" or f == "Yes":
+                print("\t" + f)
+            else:
+                display(Root.filhos[f])  # recursive call
+
+
+def classificador(Dados, Arvore):
+    numeroExemplos = len(Dados)
+    numAcertos = 0
+    acuracia = 0
+    indiceClasse = calc.getIndiceAtributo(Dados, 'play')
+    for i in range(1, len(Dados)):
+        classeExemplo = Dados[i][indiceClasse]
+        classeReal = avaliaExemplo(Arvore, Dados[i], Dados)
+        if classeExemplo == classeReal:
+            numAcertos += 1
+        acuracia = numAcertos / (numeroExemplos - 1)
+    print("A acuracia foi de :", acuracia)
+    return acuracia
+
+
+def avaliaExemplo(NoRaiz, Exemplo, Dados):
+    nosVisitados = 0
+    while len(NoRaiz.filhos) != 0:
+        atributoNo = NoRaiz.atributo
+        indiceAtributo = calc.getIndiceAtributo(Dados, atributoNo)
+        valorAtributoExemplo = Exemplo[indiceAtributo]
+        if not valorAtributoExemplo in NoRaiz.filhos.keys():
+            valorAtributoExemplo = NoRaiz.filhos.keys()[0]
+        NoRaiz = NoRaiz.filhos[valorAtributoExemplo]
+        nosVisitados += 1
+        if NoRaiz == 'No' or NoRaiz == 'Yes':
+            return NoRaiz
+    return NoRaiz
+
+
+def getRegras(No):
+    regras = []
+    regraAteEntao = []
+    getRegrasRec(No, regraAteEntao, regras, 0)
+
+
+def getRegrasRec(No, RegraAteEntao, regras, Indice):
+    if not No:
+        return []
+    else:
+        while len(No.filhos) != 0:
+            aux = [No.atributo, No.filhos[Indice]]
+            RegraAteEntao.append(aux)
+            if No == 'No' or No == 'Yes':
+                RegraAteEntao.append(No)
+                regras.append(RegraAteEntao)
+                indice += 1
+                return
+            getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
+
+
+
+
+
+
+
+
 
 
 
