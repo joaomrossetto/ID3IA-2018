@@ -1,4 +1,5 @@
-#Faz a acuracia com o nó, sem o nó e compara. Se a acuracia for maior sem ele, remove 
+'''Faz a acuracia com o nó, sem o nó e compara. Se a acuracia for maior sem ele, remove. O nó somente é removido se a árvore removida
+não for pior que a original no conjunto de validação.'''
 
 def poda1 (Root, Exemplos)
     acuraciaAntiga = classificador(Exemplos,Root)
@@ -11,12 +12,6 @@ def poda1 (Root, Exemplos)
             Root.filhos = {}
             return Root
     return Root
-
-''''Takes in a trained tree and a validation set of examples.  Prunes nodes in order
-  to improve accuracy on the validation data; the precise pruning strategy is up to you.
-  *pruning strategy - removing subtree rooted at node, making it a leaf node with the most common classification of the training examples affiliated with that node
-                    - node removed only if pruned tree performs no worse than the original over the validation set
-                    - pruning continues until further pruning is harmful (reduced error pruning algorithm)'''
 
 def poda2 (Root, Exemplos)
     temp = []
