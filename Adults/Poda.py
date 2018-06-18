@@ -15,7 +15,6 @@ def poda1 (Root, Exemplos)
 
 def poda2 (Root, Exemplos)
     temp = []
-    saida = []
     temp.append(Root)
     while len(temp) != 0:
         n = temp.pop(0)
