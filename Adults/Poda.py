@@ -1,5 +1,5 @@
-''Faz a acuracia com o nó, sem o nó e compara. Se a acuracia for maior sem ele, remove. O nó somente é removido se a árvore removida
-não for pior que a original no conjunto de validação.''
+# Faz a acuracia com o nó, sem o nó e compara. Se a acuracia for maior sem ele, remove. O nó somente é removido se a árvore removida
+# não for pior que a original no conjunto de validação.
 
 def poda1 (Root, Exemplos)
     acuraciaAntiga = classificador(Exemplos,Root)
