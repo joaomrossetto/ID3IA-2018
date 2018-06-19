@@ -1,9 +1,6 @@
 from __future__ import division
-import math as mt
-import numpy as np
-import copy as cp
-import calcEntropy as calc
-from Node import Node
+from Adults import calcEntropy as calc
+from Adults.Node import Node
 
 
 
@@ -142,3 +139,36 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
         if NoRaiz == '<=50K' or NoRaiz == '>50K':
              return NoRaiz
     return NoRaiz
+
+
+def getRegras(No):
+    regras = []
+    regraAteEntao = []
+    getRegrasRec(No, regraAteEntao, regras, 0)
+
+
+def getRegrasRec(No, RegraAteEntao, regras, Indice):
+    if not No:
+        return []
+    else:
+        while len(No.filhos) != 0:
+            aux = [No.atributo, No.filhos[Indice]]
+            RegraAteEntao.append(aux)
+            if No == '<=50K' or No == '>50K':
+                RegraAteEntao.append(No)
+                regras.append(RegraAteEntao)
+                indice += 1
+                return
+            getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
+
+
+
+
+
+
+
+
+
+
+
+
