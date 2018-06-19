@@ -1,6 +1,6 @@
 from __future__ import division
-from Adults import calcEntropy as calc
-from Adults.Node import Node
+import calcEntropy as calc
+from Node import Node
 
 
 

@@ -1,6 +1,6 @@
 from __future__ import division
 import pandas as pd
-from PlayTennis import arvoreDecisaoPlayTennis as apt
+import arvoreDecisaoPlayTennis as apt
 
 Tenis = pd.read_csv('playtennis.csv', sep=',', header = None)
 Tenis = Tenis.values
