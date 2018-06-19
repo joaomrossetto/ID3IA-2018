@@ -1,6 +1,7 @@
 from __future__ import division
 import calcEntropy as calc
 from Node import Node
+from copy import deepcopy
 
 
 
@@ -95,22 +96,6 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
 	    
 	return Root 
 
-
-def display(Root):
-        
-		if Root == "<=50K" or Root ==  ">50K":	
-			print("\t" + Root)
-		else: 
-			fil = Root.filhos
-			print(Root.atributo)
-			for f in fil:
-				print(f)
-				if f == "<=50K" or f ==  ">50K":
-					print("\t" + f)
-				else:
-					display(Root.filhos[f])  # recursive call
-
-
 def classificador(Dados,Arvore):
     numeroExemplos = len(Dados)
     numAcertos = 0
@@ -130,14 +115,18 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
     nosVisitados = 0
     while len(NoRaiz.filhos) != 0:
         atributoNo = NoRaiz.atributo
-        indiceAtributo = calc.getIndiceAtributo(Dados,atributoNo)
+        indiceAtributo = calc.getIndiceAtributo(Dados, atributoNo)
         valorAtributoExemplo = Exemplo[indiceAtributo]
-        if not valorAtributoExemplo in NoRaiz.filhos.keys():
-            valorAtributoExemplo = NoRaiz.filhos.keys()[0]
-        NoRaiz = NoRaiz.filhos[valorAtributoExemplo]
+        valorAtributoAux =""
+        for a in NoRaiz.filhos:
+           if valorAtributoAux == "":
+              valorAtributoAux = a 
+           elif valorAtributoExemplo == a:
+                valorAtributoAux = a
+        NoRaiz = NoRaiz.filhos[valorAtributoAux]
         nosVisitados += 1
         if NoRaiz == '<=50K' or NoRaiz == '>50K':
-             return NoRaiz
+            return NoRaiz
     return NoRaiz
 
 
@@ -162,7 +151,29 @@ def getRegrasRec(No, RegraAteEntao, regras, Indice):
             getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
 
 
+def poda1 (Root, Dados):
+    acuraciaAntiga = classificador(Dados,Root)
+    novoNo = deepcopy(Root)
+    if len(novoNo.filhos) != 0:
+        novoNo.filhos = {}
+        acuraciaNova = classificador(Dados,novoNo)
+        if acuraciaNova > acuraciaAntiga:
+            Root.filhos = {}
+            return Root
+    return Root
 
+def poda2 (Root, Dados):
+    temp = []
+    temp.append(Root)
+    while len(temp) != 0:
+        n = temp.pop(0)
+        n = poda1(n, Dados)
+        filhos = n.filhos
+        if len(filhos) != 0:
+            for i in filhos:
+                if filhos[i] != '<=50K' and filhos[i] != '>50K':
+                     temp.append(filhos[i])
+    return Root
 
 
 
