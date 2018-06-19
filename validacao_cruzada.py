@@ -42,9 +42,11 @@ def validacao_cruzada(folds):
         arvore = decisao.ArvoreDecisao(treinamento,'X50k.year', treinamento[0], 0)
         teste = pd.read_csv('adult_test_set.data.txt', sep=',', header = None)
         teste = teste.values
-        lista_erros.append(decisao.classificador(teste, arvore))
+        lista_erros.append(1-(decisao.classificador(teste, arvore)))
     soma_erros = 0.0
+    erros_file = open("erros_{}_folds.txt".format(k), 'w')
     for j in lista_erros:
+        erros_file.write("%f " % j)
         soma_erros += j
     media_erros = soma_erros / k  
     return media_erros
@@ -55,12 +57,16 @@ def erroVerdadeiro(erroMedio, totaldeExemplos):
     aux2 = round(1.96*erroPadrao,6)
     limiteInferior = erroMedio - aux2
     limiteSuperior = erroMedio + aux2
+    intervalo = (str(limiteInferior) + "-" + str(limiteSuperior))
     print('O erro verdadeiro fica entre: ', limiteInferior , ' e ', limiteSuperior)
+    return intervalo
 
 
 adults = pd.read_csv('adult_dataprep.data.txt', sep=r'\s*,\s*', na_values="?", engine='python')
 adults_tam = len(adults)
-folds = cria_folds(adults,10)
+folds = cria_folds(adults,5)
 media_erros = validacao_cruzada(folds)
 print('A media dos erros foi de: %f' % media_erros)
-erroVerdadeiro(media_erros,adults_tam)
+intervalo = erroVerdadeiro(media_erros,adults_tam)
+erro_vdd_file = open("true_error_{}_folds.txt".format(len(folds)), 'w')
+erro_vdd_file.write("%s" % intervalo)
