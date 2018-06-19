@@ -1,5 +1,5 @@
 from __future__ import division
-import calcEntropy as calc
+import calcEntropyPlayTennis as calc
 from Node import Node
 
 
@@ -89,20 +89,6 @@ def ArvoreDecisao(Dados, Target, Atributos, default):
                 Root.filhos = filhos
 
     return Root
-
-
-def display(Root):
-    if Root == "No" or Root == "Yes":
-        print("\t" + Root)
-    else:
-        fil = Root.filhos
-        print(Root.atributo)
-        for f in fil:
-            print(f)
-            if f == "No" or f == "Yes":
-                print("\t" + f)
-            else:
-                display(Root.filhos[f])  # recursive call
 
 
 def classificador(Dados, Arvore):

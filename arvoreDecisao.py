@@ -95,22 +95,6 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
 	    
 	return Root 
 
-
-def display(Root):
-        
-		if Root == "<=50K" or Root ==  ">50K":	
-			print("\t" + Root)
-		else: 
-			fil = Root.filhos
-			print(Root.atributo)
-			for f in fil:
-				print(f)
-				if f == "<=50K" or f ==  ">50K":
-					print("\t" + f)
-				else:
-					display(Root.filhos[f])  # recursive call
-
-
 def classificador(Dados,Arvore):
     numeroExemplos = len(Dados)
     numAcertos = 0
