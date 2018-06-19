@@ -44,6 +44,7 @@ for i in caminho:
     print(i)
 #decisao.display(Root)
 apt.classificador(Tenis, Root)
+Root= apt.poda2(Root,Tenis) 
 
 #arvore.display("relationship")
 #print(calc.makeConjuntoAtributo(jogaTenis,"outlook","Overcast"))

@@ -41,6 +41,7 @@ imprime(Root,caminho,rules, contador)
 for i in caminho:
     print(i)
 decisao.classificador(Adults, Root)
+Root= decisao.poda2(Root,Adults) 
 
 #arvore.display("relationship")
 #print(calc.makeConjuntoAtributo(jogaTenis,"outlook","Overcast"))

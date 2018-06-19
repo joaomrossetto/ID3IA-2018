@@ -1,7 +1,7 @@
 from __future__ import division
 import calcEntropyPlayTennis as calc
 from Node import Node
-
+from copy import deepcopy
 
 def ValorMaisComum(Dados, Target, Atributos):
     MaisComum = ''
@@ -135,7 +135,7 @@ def getRegrasRec(No, RegraAteEntao, regras, Indice):
     if not No:
         return []
     else:
-        while len(No.filhos) != 0:P
+        while len(No.filhos) != 0:
             aux = [No.atributo, No.filhos[Indice]]
             RegraAteEntao.append(aux)
             if No == 'No' or No == 'Yes':
@@ -144,6 +144,30 @@ def getRegrasRec(No, RegraAteEntao, regras, Indice):
                 indice += 1
                 return
             getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
+
+def poda1 (Root, Dados):
+    acuraciaAntiga = classificador(Dados,Root)
+    novoNo = deepcopy(Root)
+    if len(novoNo.filhos) != 0:
+        novoNo.filhos = {}
+        acuraciaNova = classificador(Dados,novoNo)
+        if acuraciaNova > acuraciaAntiga:
+            Root.filhos = {}
+            return Root
+    return Root
+
+def poda2 (Root, Dados):
+    temp = []
+    temp.append(Root)
+    while len(temp) != 0:
+        n = temp.pop(0)
+        n = poda1(n, Dados)
+        filhos = n.filhos
+        if len(filhos) != 0:
+            for i in filhos:
+                if filhos[i] != 'No' and filhos[i] != 'Yes':
+                     temp.append(filhos[i])
+    return Root
 
 
 
