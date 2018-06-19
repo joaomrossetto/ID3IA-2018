@@ -112,9 +112,13 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
         atributoNo = NoRaiz.atributo
         indiceAtributo = calc.getIndiceAtributo(Dados, atributoNo)
         valorAtributoExemplo = Exemplo[indiceAtributo]
-        if not valorAtributoExemplo in NoRaiz.filhos.keys():
-            valorAtributoExemplo = NoRaiz.filhos.keys()[0]
-        NoRaiz = NoRaiz.filhos[valorAtributoExemplo]
+        valorAtributoAux =""
+        for a in NoRaiz.filhos:
+           if valorAtributoAux == "":
+              valorAtributoAux = a 
+           elif valorAtributoExemplo == a:
+                valorAtributoAux = a
+        NoRaiz = NoRaiz.filhos[valorAtributoAux]
         nosVisitados += 1
         if NoRaiz == 'No' or NoRaiz == 'Yes':
             return NoRaiz
