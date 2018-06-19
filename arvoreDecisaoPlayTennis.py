@@ -135,7 +135,7 @@ def getRegrasRec(No, RegraAteEntao, regras, Indice):
     if not No:
         return []
     else:
-        while len(No.filhos) != 0:
+        while len(No.filhos) != 0:P
             aux = [No.atributo, No.filhos[Indice]]
             RegraAteEntao.append(aux)
             if No == 'No' or No == 'Yes':
