@@ -1,6 +1,8 @@
+from __future__ import division
 import pandas as pd 
 import numpy as np
 import arvoreDecisao as decisao
+import math as mt
 
 def cria_folds(dados, k):
     folds = []
@@ -34,12 +36,6 @@ def validacao_cruzada(folds):
         train_set = pd.concat((folds[:i]+folds[i+1:]))
         print(type(train_set))
         print(train_set)
-        #folds[:i] + folds[i+1:]
-        #train_set = train_set.values
-        #treinamento = train_set.iloc[0]
-        #train_set = train_set.as_matrix(treinamento)
-        #print(type(train_set))
-        #print(train_set)
         train_set.to_csv('adult_train_set.data.txt', sep=',', index=False)
         treinamento = pd.read_csv('adult_train_set.data.txt', sep=',', header = None)
         treinamento = treinamento.values
@@ -53,6 +49,18 @@ def validacao_cruzada(folds):
     media_erros = soma_erros / k  
     return media_erros
 
+def erroVerdadeiro(erroMedio, totaldeExemplos):
+    aux = round(erroMedio*(1-erroMedio),6)
+    erroPadrao = round(mt.sqrt(aux/totaldeExemplos),6)
+    aux2 = round(1.96*erroPadrao,6)
+    limiteInferior = erroMedio - aux2
+    limiteSuperior = erroMedio + aux2
+    print('O erro verdadeiro fica entre: ', limiteInferior , ' e ', limiteSuperior)
+
+
 adults = pd.read_csv('adult_dataprep.data.txt', sep=r'\s*,\s*', na_values="?", engine='python')
-folds = cria_folds(adults,4)
+adults_tam = len(adults)
+folds = cria_folds(adults,10)
 media_erros = validacao_cruzada(folds)
+print('A media dos erros foi de: %f' % media_erros)
+erroVerdadeiro(media_erros,adults_tam)
