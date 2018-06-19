@@ -124,27 +124,6 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
             return NoRaiz
     return NoRaiz
 
-
-def getRegras(No):
-    regras = []
-    regraAteEntao = []
-    getRegrasRec(No, regraAteEntao, regras, 0)
-
-
-def getRegrasRec(No, RegraAteEntao, regras, Indice):
-    if not No:
-        return []
-    else:
-        while len(No.filhos) != 0:
-            aux = [No.atributo, No.filhos[Indice]]
-            RegraAteEntao.append(aux)
-            if No == 'No' or No == 'Yes':
-                RegraAteEntao.append(No)
-                regras.append(RegraAteEntao)
-                indice += 1
-                return
-            getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
-
 def poda1 (Root, Dados):
     acuraciaAntiga = classificador(Dados,Root)
     novoNo = deepcopy(Root)

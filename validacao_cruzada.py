@@ -64,7 +64,7 @@ def erroVerdadeiro(erroMedio, totaldeExemplos):
 
 adults = pd.read_csv('adult_dataprep.data.txt', sep=r'\s*,\s*', na_values="?", engine='python')
 adults_tam = len(adults)
-folds = cria_folds(adults,5)
+folds = cria_folds(adults,10)
 media_erros = validacao_cruzada(folds)
 print('A media dos erros foi de: %f' % media_erros)
 intervalo = erroVerdadeiro(media_erros,adults_tam)
