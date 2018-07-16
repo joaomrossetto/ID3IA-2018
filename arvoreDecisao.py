@@ -166,7 +166,7 @@ def poda2 (Root, Dados):
     temp = []
     temp.append(Root)
     while len(temp) != 0:
-        n = temp.pop(0)
+        n = temp.pop(0)	
         n = poda1(n, Dados)
         filhos = n.filhos
         if len(filhos) != 0:
