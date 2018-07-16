@@ -3,8 +3,8 @@ import math as mt
 import numpy as np
 import copy as cp
 
-colunas = array(['age','workclass','education','education.num','marital.status','occupation','relationship',
-'race','sex','capital.gain','capital.loss','hours.per.week','native.country','X50k.year'])
+colunas = ['age','workclass','education','education.num','marital.status','occupation','relationship',
+'race','sex','capital.gain','capital.loss','hours.per.week','native.country','X50k.year']
 
 def calculaEntropy(dados):
     positivo = getProporcaoPositiva(dados)
