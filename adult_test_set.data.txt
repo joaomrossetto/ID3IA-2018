@@ -1,0 +1,11 @@
+age,workclass,education,education.num,marital.status,occupation,relationship,race,sex,capital.gain,capital.loss,hours.per.week,native.country,X50k.year
+29.5-35.5,State-gov,Bachelors,12.5-13.5,Married-civ-spouse,Prof-specialty,Husband,Asian-Pac-Islander,Male,-inf-57,-inf-1551.5,39.5-41.5,India,>50K
+43.5-54.5,Private,Masters,13.5-14.5,Divorced,Exec-managerial,Unmarried,White,Female,-inf-57,-inf-1551.5,39.5-41.5,United-States,<=50K
+43.5-54.5,Self-emp-not-inc,Bachelors,12.5-13.5,Married-civ-spouse,Prof-specialty,Husband,White,Male,-inf-57,-inf-1551.5,39.5-41.5,United-States,<=50K
+21.5-23.5,State-gov,Some-college,9.5-10.5,Married-civ-spouse,Other-service,Husband,Black,Male,-inf-57,-inf-1551.5,-inf-34.5,United-States,<=50K
+29.5-35.5,Private,11th,-inf-8.5,Never-married,Handlers-cleaners,Own-child,White,Male,-inf-57,-inf-1551.5,39.5-41.5,United-States,<=50K
+23.5-27.5,Private,HS-grad,8.5-9.5,Never-married,Other-service,Own-child,White,Male,-inf-57,-inf-1551.5,39.5-41.5,Mexico,<=50K
+54.5-61.5,Federal-gov,Bachelors,12.5-13.5,Married-civ-spouse,Prof-specialty,Husband,Black,Male,-inf-57,-inf-1551.5,39.5-41.5,United-States,>50K
+27.5-29.5,Self-emp-not-inc,Bachelors,12.5-13.5,Married-civ-spouse,Sales,Husband,White,Male,-inf-57,-inf-1551.5,65.5-inf,United-States,>50K
+43.5-54.5,Private,Assoc-acdm,10.5-12.5,Divorced,Exec-managerial,Unmarried,White,Female,-inf-57,-inf-1551.5,39.5-41.5,England,<=50K
+35.5-43.5,Private,Some-college,9.5-10.5,Married-civ-spouse,Tech-support,Husband,White,Male,-inf-57,-inf-1551.5,39.5-41.5,United-States,>50K

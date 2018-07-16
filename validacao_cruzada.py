@@ -5,6 +5,9 @@ import arvoreDecisao as decisao
 import math as mt
 import matplotlib.pyplot as plt
 
+colunas = ['age','workclass','education','education.num','marital.status','occupation','relationship',
+'race','sex','capital.gain','capital.loss','hours.per.week','native.country','X50k.year']
+
 def cria_folds(dados, k):
     folds = []
     tam_base = len(dados)
@@ -38,10 +41,10 @@ def validacao_cruzada(folds):
         print(type(train_set))
         print(train_set)
         train_set.to_csv('adult_train_set.data.txt', sep=',', index=False)
-        treinamento = pd.read_csv('adult_train_set.data.txt', sep=',', header = None)
+        treinamento = pd.read_csv('adult_train_set.data.txt', sep=',', header = 0)
         treinamento = treinamento.values
-        arvore = decisao.ArvoreDecisao(treinamento,'X50k.year', treinamento[0], 0)
-        teste = pd.read_csv('adult_test_set.data.txt', sep=',', header = None)
+        arvore = decisao.ArvoreDecisao(treinamento,'X50k.year', colunas, 0)
+        teste = pd.read_csv('adult_test_set.data.txt', sep=',', header = 0)
         teste = teste.values
         lista_erros.append(1-(decisao.classificador(teste, arvore)))
     soma_erros = 0.0
@@ -70,7 +73,7 @@ media_erros = validacao_cruzada(folds)
 print('A media dos erros foi de: %f' % media_erros)
 intervalo = erroVerdadeiro(media_erros,adults_tam)
 erro_vdd_file = open("true_error_{}_folds.txt".format(len(folds)), 'w')
-erro_vdd_file.write("%s" % intervalo)'''
+erro_vdd_file.write("%s" % intervalo)
 
 #erros = pd.read_csv('erros_10_folds.txt')
 erros10 = [0.177719, 0.160146, 0.169098, 0.165782, 0.155836, 0.170756, 0.178050, 0.180371, 0.170093, 0.159814 ]
@@ -89,3 +92,4 @@ ax1.set_title('Erros do modelo por K em K-Fold')
 ax1.set_xlabel('Valor de K')
 ax1.set_ylabel('Erro')
 plt.show()
+'''

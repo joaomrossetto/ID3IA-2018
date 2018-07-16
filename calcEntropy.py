@@ -3,6 +3,9 @@ import math as mt
 import numpy as np
 import copy as cp
 
+colunas = array(['age','workclass','education','education.num','marital.status','occupation','relationship',
+'race','sex','capital.gain','capital.loss','hours.per.week','native.country','X50k.year'])
+
 def calculaEntropy(dados):
     positivo = getProporcaoPositiva(dados)
     negativo = 1 - positivo
@@ -20,10 +23,10 @@ def calculaEntropy(dados):
     entropia = round(entropia,6)
     return entropia
 
-def getIndiceAtributo(dados, atributo):
-    numColunas = len(dados[0])
+def getIndiceAtributo(atributo):
+    numColunas = len(colunas)
     for indiceAtributo in range(0, numColunas):
-        if dados[0][indiceAtributo] == atributo:
+        if colunas[indiceAtributo] == atributo:
             #print(indiceAtributo)
             return indiceAtributo
 
@@ -50,7 +53,7 @@ def getProporcaoNegativa(dados):
     return proporcao
 
 def getNumeroAparicoes(dados, atributo, valorAtributo):
-    indice = getIndiceAtributo(dados,atributo)
+    indice = getIndiceAtributo(atributo)
     contador = 0
     for i in range (0, len(dados)):
         if dados[i][indice] == valorAtributo:
@@ -59,20 +62,20 @@ def getNumeroAparicoes(dados, atributo, valorAtributo):
     return contador
 
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
-    indice= getIndiceAtributo(dados,atributo)
+    indice= getIndiceAtributo(atributo)
     tam = len(dados)
     novoconjunto = []
-    novoconjunto.append(dados[0])
-    for i in range(1, tam):
+    novoconjunto.append(colunas)
+    for i in range(0, tam):
         if dados[i][indice] == valorAtributo:
             novoconjunto.append(dados[i])
     return novoconjunto
 
 def getValoresAtributos(dados, atributo):
-    indiceAtributo = getIndiceAtributo(dados, atributo)
+    indiceAtributo = getIndiceAtributo(atributo)
     tam = len(dados)
     valores = []
-    for i in range(1,tam):
+    for i in range(0,tam):
         valores.append(dados[i][indiceAtributo])
     valores = set(valores)
     return sorted(valores)
