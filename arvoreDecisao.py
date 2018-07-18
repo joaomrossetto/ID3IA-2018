@@ -46,13 +46,13 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
 	Root = Node()
 
 
-	indice = calc.getIndiceAtributo(Target)
+	indice = calc.getIndiceAtributo(Dados,Target)
 	maior = "<=50K"
 	menor = ">50K"
 	imaior = 0
 	imenor = 0
 	a = ""
-	for i in range (0,len(Dados)-1):
+	for i in range (1,len(Dados)-1):
 		if imaior > 0 and imenor > 0:
 			break
 		elif Dados[i][indice] == maior:
@@ -100,8 +100,8 @@ def classificador(Dados,Arvore):
     numeroExemplos = len(Dados)
     numAcertos = 0
     acuracia = 0
-    indiceClasse = calc.getIndiceAtributo('X50k.year')
-    for i in range(0,len(Dados)-1):
+    indiceClasse = calc.getIndiceAtributo(Dados,'X50k.year')
+    for i in range(1,len(Dados)):
         classeExemplo = Dados[i][indiceClasse]
         classeReal = avaliaExemplo(Arvore, Dados[i], Dados)
         if classeExemplo == classeReal:
@@ -115,7 +115,7 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
     nosVisitados = 0
     while len(NoRaiz.filhos) != 0:
         atributoNo = NoRaiz.atributo
-        indiceAtributo = calc.getIndiceAtributo(atributoNo)
+        indiceAtributo = calc.getIndiceAtributo(Dados, atributoNo)
         valorAtributoExemplo = Exemplo[indiceAtributo]
         valorAtributoAux =""
         for a in NoRaiz.filhos:

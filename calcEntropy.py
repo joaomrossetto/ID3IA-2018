@@ -3,9 +3,6 @@ import math as mt
 import numpy as np
 import copy as cp
 
-colunas = ['age','workclass','education','education.num','marital.status','occupation','relationship',
-'race','sex','capital.gain','capital.loss','hours.per.week','native.country','X50k.year']
-
 def calculaEntropy(dados):
     positivo = getProporcaoPositiva(dados)
     negativo = 1 - positivo
@@ -23,10 +20,10 @@ def calculaEntropy(dados):
     entropia = round(entropia,6)
     return entropia
 
-def getIndiceAtributo(atributo):
-    numColunas = len(colunas)
+def getIndiceAtributo(dados, atributo):
+    numColunas = len(dados[0])
     for indiceAtributo in range(0, numColunas):
-        if colunas[indiceAtributo] == atributo:
+        if dados[0][indiceAtributo] == atributo:
             #print(indiceAtributo)
             return indiceAtributo
 
@@ -53,7 +50,7 @@ def getProporcaoNegativa(dados):
     return proporcao
 
 def getNumeroAparicoes(dados, atributo, valorAtributo):
-    indice = getIndiceAtributo(atributo)
+    indice = getIndiceAtributo(dados,atributo)
     contador = 0
     for i in range (0, len(dados)):
         if dados[i][indice] == valorAtributo:
@@ -62,20 +59,20 @@ def getNumeroAparicoes(dados, atributo, valorAtributo):
     return contador
 
 def makeConjuntoAtributo(dados,atributo,valorAtributo):
-    indice= getIndiceAtributo(atributo)
+    indice= getIndiceAtributo(dados,atributo)
     tam = len(dados)
     novoconjunto = []
-    novoconjunto.append(colunas)
-    for i in range(0, tam):
+    novoconjunto.append(dados[0])
+    for i in range(1, tam):
         if dados[i][indice] == valorAtributo:
             novoconjunto.append(dados[i])
     return novoconjunto
 
 def getValoresAtributos(dados, atributo):
-    indiceAtributo = getIndiceAtributo(atributo)
+    indiceAtributo = getIndiceAtributo(dados, atributo)
     tam = len(dados)
     valores = []
-    for i in range(0,tam):
+    for i in range(1,tam):
         valores.append(dados[i][indiceAtributo])
     valores = set(valores)
     return sorted(valores)

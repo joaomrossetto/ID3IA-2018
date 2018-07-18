@@ -5,9 +5,6 @@ import arvoreDecisao as decisao
 import math as mt
 import matplotlib.pyplot as plt
 
-colunas = ['age','workclass','education','education.num','marital.status','occupation','relationship',
-'race','sex','capital.gain','capital.loss','hours.per.week','native.country','X50k.year']
-
 def cria_folds(dados, k):
     folds = []
     tam_base = len(dados)
@@ -41,10 +38,10 @@ def validacao_cruzada(folds):
         print(type(train_set))
         print(train_set)
         train_set.to_csv('adult_train_set.data.txt', sep=',', index=False)
-        treinamento = pd.read_csv('adult_train_set.data.txt', sep=',', header = 0)
+        treinamento = pd.read_csv('adult_train_set.data.txt', sep=',', header = None)
         treinamento = treinamento.values
-        arvore = decisao.ArvoreDecisao(treinamento,'X50k.year', colunas, 0)
-        teste = pd.read_csv('adult_test_set.data.txt', sep=',', header = 0)
+        arvore = decisao.ArvoreDecisao(treinamento,'X50k.year', treinamento[0], 0)
+        teste = pd.read_csv('adult_test_set.data.txt', sep=',', header = None)
         teste = teste.values
         lista_erros.append(1-(decisao.classificador(teste, arvore)))
     soma_erros = 0.0
