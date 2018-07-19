@@ -2,8 +2,8 @@ from __future__ import division
 import calcEntropy as calc
 from Node import Node
 from copy import deepcopy
-
-
+import pickle
+import random
 
 
 def ValorMaisComum(Dados, Target, Atributos):
@@ -150,8 +150,7 @@ def getRegrasRec(No, RegraAteEntao, regras, Indice):
                 return
             getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
 
-
-def poda1 (Root, Dados):
+def compara_acuracia (Root, Dados):
     acuraciaAntiga = classificador(Dados,Root)
     novoNo = deepcopy(Root)
     if len(novoNo.filhos) != 0:
@@ -162,12 +161,70 @@ def poda1 (Root, Dados):
             return Root
     return Root
 
-def poda2 (Root, Dados):
+def comp_acc (Root, no, Dados, ocorrencia):
+    acuraciaAntiga = classificador(Dados,Root)
+    no_file = open(r'no_file.pkl','wb')
+    pickle.dump(Root,no_file)
+    no_file.close()
+    #no.filhos = {}
+    no=ocorrencia
+    acuraciaNova = classificador(Dados,Root)
+    if acuraciaNova > acuraciaAntiga:
+        return Root
+    elif acuraciaNova == acuraciaAntiga:
+        return Root
+    else:
+        recover_file = open(r'no_file.pkl','rb')
+        no_recover = pickle.load(recover_file)
+        recover_file.close()
+        Root = no_recover
+        return Root
+
+def poda2(Root, no, Dados, sinaliza_root):
+    menor = "<=50K"
+    maior = ">50K"
+    filhos = no.filhos
+    ocorrencia = ''
+    if len(filhos) != 0:
+        #cont_folha = 0
+        cont_menor = 0
+        cont_maior = 0
+        add_menor = 0
+        add_maior = 0
+        for i in filhos:
+            if filhos[i] == menor:
+                cont_menor +=1
+            elif filhos[i] == maior:
+                cont_maior +=1
+            else:
+                add_menor, add_maior = poda2(Root,filhos[i],Dados,1)
+
+        cont_menor += add_menor
+        cont_maior += add_maior
+        #cont_folha = cont_menor + cont_maior
+        #if ocorrencia=='':
+        if cont_menor > cont_maior:
+            no.recorrente = menor
+            Root = comp_acc(Root, no, Dados, menor) #Representa maioria "<=50K"
+        elif cont_maior > cont_menor:
+            no.recorrente = maior
+            Root = comp_acc(Root,no,Dados,maior) #Representa maioria ">50K" talvez enviese o modelo
+        else:
+            randomiza = random.choice([menor, maior])
+            no.recorrente = randomiza
+            Root = comp_acc(Root,no,Dados,randomiza)
+
+        if sinaliza_root == 1:
+            return cont_menor, cont_maior
+
+    return Root
+
+def poda (Root, Dados):
     temp = []
     temp.append(Root)
     while len(temp) != 0:
         n = temp.pop(0)	
-        n = poda1(n, Dados)
+        n = compara_acuracia(n, Dados)
         filhos = n.filhos
         if len(filhos) != 0:
             for i in filhos:

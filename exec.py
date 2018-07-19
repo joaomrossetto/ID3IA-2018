@@ -15,10 +15,11 @@ valida.to_csv('cjid3_2.txt', sep=',', index=False)
 #CjID3[0] = CjID3[0].values #Treino
 #CjID3[1] = CjID3[1].values #Teste
 #CjID3[2] = CjID3[2].values #Validacao
-#Adults = pd.read_csv('adult_dataprep.data.txt', sep=r'\s*,\s*', na_values="?", engine='python')
-Adults = pd.read_csv('adult_dataprep.data.txt', sep=',')
-crossVal = vc.cria_folds(Adults, 10)
+
+#Adults = pd.read_csv('adult_dataprep.data.txt', sep=',')
+#crossVal = vc.cria_folds(Adults, 10)
 #mediaErros = vc.validacao_cruzada(crossVal)
+
 treinamento = pd.read_csv('cjid3_0.txt', sep=',', header = None)
 treinamento = treinamento.values
 Root = decisao.ArvoreDecisao(treinamento,'X50k.year',treinamento[0],0)
@@ -30,8 +31,8 @@ contador = [0,0]
 #decisao.poda1(Root,CjID3[2])
 validacao = pd.read_csv('cjid3_2.txt', sep=',', header = None)
 validacao = validacao.values
-decisao.poda2(Root,validacao)
+Root = decisao.poda2(Root,Root,validacao,0)
 
 test = pd.read_csv('cjid3_1.txt', sep=',', header = None)
 test = test.values
-#print(decisao.classificador(teste, Root))
+print(decisao.classificador(teste, Root))
