@@ -14,16 +14,16 @@ def cria_folds(dados, k):
     for i in range(k):
         amostra = dados.sample(tam_fold)
         folds.append(amostra)
-        print('Amostra: %s \n \n ' % amostra)
-        print('Amostra.index: %s \n \n' % amostra.index)
-        print(i)
+        #print('Amostra: %s \n \n ' % amostra)
+        #print('Amostra.index: %s \n \n' % amostra.index)
+        #print(i)
         for row in amostra.itertuples():
             dados.drop(row.Index, inplace=True)
-    print('\nlen(dados): %d\n' % len(dados))
+    #print('\nlen(dados): %d\n' % len(dados))
     if len(dados) != 0:
         folds[0].append(dados)
-    print(type(folds))
-    print(folds)
+    #print(type(folds))
+    #print(folds)
     return folds
 
 def validacao_cruzada(folds):
@@ -31,12 +31,8 @@ def validacao_cruzada(folds):
     k = (len(folds))
     for i in range(k):
         test_set = folds[i]
-        print(type(test_set))
-        print(test_set)
         test_set.to_csv('adult_test_set.data.txt', sep=',', index=False)
         train_set = pd.concat((folds[:i]+folds[i+1:]))
-        print(type(train_set))
-        print(train_set)
         train_set.to_csv('adult_train_set.data.txt', sep=',', index=False)
         treinamento = pd.read_csv('adult_train_set.data.txt', sep=',', header = None)
         treinamento = treinamento.values

@@ -92,7 +92,8 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
 				return Root	
 			else:
 				filhos[Valores_A[y]] = ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Root)
-				Root.filhos = filhos
+				Root.label = Valores_A[y]
+                Root.filhos = filhos
 	    
 	return Root 
 
@@ -107,7 +108,7 @@ def classificador(Dados,Arvore):
         if classeExemplo == classeReal:
             numAcertos += 1
         acuracia = numAcertos/(numeroExemplos-1)
-    print("A acuracia foi de :",acuracia)
+    #print("A acuracia foi de :",acuracia)
     return acuracia
 
 
@@ -163,55 +164,59 @@ def compara_acuracia (Root, Dados):
 
 def comp_acc (Root, no, Dados, ocorrencia):
     acuraciaAntiga = classificador(Dados,Root)
-    no_file = open(r'no_file.pkl','wb')
-    pickle.dump(Root,no_file)
-    no_file.close()
-    #no.filhos = {}
-    no=ocorrencia
+    #no_file = open(r'no_file.pkl','wb')
+    #pickle.dump(no,no_file)
+    #no_file.close()
+    filhos = no.filhos[no.label]
+    #no.label = ocorrencia
+    no.filhos[no.label] = ocorrencia
+    #no=ocorrencia
     acuraciaNova = classificador(Dados,Root)
     if acuraciaNova > acuraciaAntiga:
+        print(acuraciaNova)
         return Root
     elif acuraciaNova == acuraciaAntiga:
         return Root
     else:
-        recover_file = open(r'no_file.pkl','rb')
-        no_recover = pickle.load(recover_file)
-        recover_file.close()
-        Root = no_recover
+        #recover_file = open(r'no_file.pkl','rb')
+        #no_recover = pickle.load(recover_file)
+        #recover_file.close()
+        #Root = no_recover
+        ##no.filhos = no_recover.filhos
+        no.filhos[no.label] = filhos
         return Root
 
 def poda2(Root, no, Dados, sinaliza_root):
     menor = "<=50K"
     maior = ">50K"
-    filhos = no.filhos
     ocorrencia = ''
-    if len(filhos) != 0:
+    if len(no.filhos) != 0:
         #cont_folha = 0
         cont_menor = 0
         cont_maior = 0
         add_menor = 0
         add_maior = 0
-        for i in filhos:
-            if filhos[i] == menor:
+        for i in no.filhos:
+            if no.filhos[i] == menor:
                 cont_menor +=1
-            elif filhos[i] == maior:
+            elif no.filhos[i] == maior:
                 cont_maior +=1
             else:
-                add_menor, add_maior = poda2(Root,filhos[i],Dados,1)
+                add_menor, add_maior = poda2(Root,no.filhos[i],Dados,1)
 
         cont_menor += add_menor
         cont_maior += add_maior
         #cont_folha = cont_menor + cont_maior
         #if ocorrencia=='':
         if cont_menor > cont_maior:
-            no.recorrente = menor
+            #no.recorrente = menor
             Root = comp_acc(Root, no, Dados, menor) #Representa maioria "<=50K"
         elif cont_maior > cont_menor:
-            no.recorrente = maior
+            #no.recorrente = maior
             Root = comp_acc(Root,no,Dados,maior) #Representa maioria ">50K" talvez enviese o modelo
         else:
             randomiza = random.choice([menor, maior])
-            no.recorrente = randomiza
+            #no.recorrente = randomiza
             Root = comp_acc(Root,no,Dados,randomiza)
 
         if sinaliza_root == 1:
