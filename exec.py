@@ -55,6 +55,15 @@ with open('lista_acuracias.txt','wb') as lista_acuracias_file:
         lista_acuracias_file.write(str(a)+'\n')
 
 
+
+
+decisao.getCaminhoMaisUsado(test, Root)
+print('só pra debugar')
+
+decisao.imprime(Root,caminho,rules, contador)
+print(caminho)
+
+
 acuracia_depois = decisao.classificador(test, Root)
 
 root_poda_file = open(r'root_poda.pkl','wb')

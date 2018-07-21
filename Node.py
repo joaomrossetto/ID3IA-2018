@@ -4,3 +4,5 @@ class Node:
         self.__filhos = {}
         #self.__recorrente = None
         self.__label = None
+        self.numAcessos = 0
+
