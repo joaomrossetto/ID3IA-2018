@@ -8,12 +8,12 @@ import random
 num_nos = []
 def ValorMaisComum(Dados, Target, Atributos):
     MaisComum = ''
-    ganhaMais = calc.getNumeroAparicoes(Dados, Target, ">50K")
-    ganhaMenos = calc.getNumeroAparicoes(Dados, Target, "<=50K")
+    ganhaMais = calc.getNumeroAparicoes(Dados, Target, "Yes")
+    ganhaMenos = calc.getNumeroAparicoes(Dados, Target, "No")
     if ganhaMais > ganhaMenos:
-        MaisComum = '>50K'
+        MaisComum = 'Yes'
     else:
-        MaisComum = '<=50K'
+        MaisComum = 'No'
     return MaisComum
 
 
@@ -48,8 +48,8 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
     #global num_nos
     #num_nos = num_nos + 1
     indice = calc.getIndiceAtributo(Dados,Target)
-    maior = "<=50K"
-    menor = ">50K"
+    maior = "Yes"
+    menor = "No"
     imaior = 0
     imenor = 0
     a = ""
@@ -102,7 +102,7 @@ def classificador(Dados,Arvore):
     numeroExemplos = len(Dados)
     numAcertos = 0
     acuracia = 0
-    indiceClasse = calc.getIndiceAtributo(Dados,'X50k.year')
+    indiceClasse = calc.getIndiceAtributo(Dados,'play')
     for i in range(1,len(Dados)):
         classeExemplo = Dados[i][indiceClasse]
         classeReal = avaliaExemplo(Arvore, Dados[i], Dados)
@@ -127,7 +127,7 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
                 valorAtributoAux = a
         NoRaiz = NoRaiz.filhos[valorAtributoAux]
         nosVisitados += 1
-        if NoRaiz == '<=50K' or NoRaiz == '>50K':
+        if NoRaiz == 'Yes' or NoRaiz == 'No':
             return NoRaiz
     return NoRaiz
 
@@ -244,7 +244,7 @@ def poda (Root, Dados):
 
 
 def imprime(Root, caminho, rules,contador):
-    if Root =='<=50K' or Root ==">50K":
+    if Root =='Yes' or Root =="No":
       contador[0] = contador[0] + 1
       teste = ""
       for a in rules:
@@ -267,12 +267,12 @@ def imprime(Root, caminho, rules,contador):
 
 
 def ehNoPaiFolha(Root):
-    if Root.filhos[next(iter(Root.filhos))] =='<=50K' or Root.filhos[next(iter(Root.filhos))] ==">50K" :
+    if Root.filhos[next(iter(Root.filhos))] =='No' or Root.filhos[next(iter(Root.filhos))] =="Yes" :
         return True
 
 
-def getCaminhoMaisUsado(Dados,Arvore):
-    indiceClasse = calc.getIndiceAtributo(Dados,'X50k.year')
+def getCaminhosMaisUsados(Dados,Arvore):
+    indiceClasse = calc.getIndiceAtributo(Dados,'play')
     for i in range(1,len(Dados)):
         avaliaExemploMaisUsado(Arvore, Dados[i], Dados)
 
@@ -288,25 +288,39 @@ def avaliaExemploMaisUsado(NoRaiz, Exemplo, Dados):
               valorAtributoAux = a
            elif valorAtributoExemplo == a:
                 valorAtributoAux = a
-        if NoRaiz != '<=50K' or NoRaiz != '>50K':
+        if NoRaiz != 'No' or NoRaiz != 'Yes':
             if ehNoPaiFolha(NoRaiz):
                 NoRaiz.numAcessos = NoRaiz.numAcessos + 1
                 print('o numero de acessos a esse nó pai de folha é ' + str(NoRaiz.numAcessos))
         NoRaiz = NoRaiz.filhos[valorAtributoAux]
-        if NoRaiz == '<=50K' or NoRaiz == '>50K':
+        if NoRaiz == 'No' or NoRaiz == 'Yes':
             return NoRaiz
     return NoRaiz
 
 
 def visitaPrintandoRegras(Raiz):
     lista = []
-    visita(Raiz)
+    Nopai = Node()
+    lista.append('IF')
+    visita(Raiz, lista, Nopai)
 
-def visita(Raiz, Caminho):
-    Caminho.add(Raiz.atributo)
-    if Raiz == '<=50K' or Raiz == '>50K':
+def visita(Raiz, Caminho, NoPai):
+    list = []
+    if Raiz == 'No' or Raiz == 'Yes':
+        list.append("CLASSE:")
+        list.append(Raiz)
+        list.append("NUMACESSOS:")
+        list.append(NoPai.numAcessos)
+        Caminho.append(list)
         print(Caminho)
+        return
+    Caminho.append("ATRIBUTO:")
+    Caminho.append(Raiz.atributo)
     for i in Raiz.filhos:
+        Caminho.append("VALOR")
+        Caminho.append(i)
+        novaLista = []
+        visita(Raiz.filhos[i], novaLista, Raiz)
 
 
 
