@@ -1,21 +1,19 @@
 from __future__ import division
 import pandas as pd
 import arvoreDecisao as decisao
-##import validacao_cruzada as vc
+import validacao_cruzada as vc
 
-tenis = pd.read_csv('playtennis.csv', sep=',', header = None)
-tenis = tenis.values
-Root = decisao.ArvoreDecisao(tenis,'play',tenis[0],0)
+teste = pd.read_csv('cjid3_0.txt', sep=',', header = None)
+treino = pd.read_csv('cjid3_1.txt', sep=',', header = None)
+treino = treino.values
+teste = teste.values
+
+Root = decisao.ArvoreDecisao(treino,'X50k.year',treino[0],0)
 caminho = []
 rules = []
 contador = [0,0]
-print(caminho)
-print('só pra debugar')
-#decisao.classificador(tenis, Root)
-x=Root
-#listaRegras = []
-#decisao.visitaPrintandoRegras(Root)
-decisao.getCaminhosMaisUsados(tenis, Root)
+decisao.getCaminhosMaisUsados(teste, Root)
 decisao.imprime(Root,caminho,rules,contador)
+print(caminho)
 
 #print(listaRegras)

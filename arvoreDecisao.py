@@ -9,12 +9,12 @@ import random
 num_nos = []
 def ValorMaisComum(Dados, Target, Atributos):
     MaisComum = ''
-    ganhaMais = calc.getNumeroAparicoes(Dados, Target, "Yes")
-    ganhaMenos = calc.getNumeroAparicoes(Dados, Target, "No")
+    ganhaMais = calc.getNumeroAparicoes(Dados, Target, ">50K")
+    ganhaMenos = calc.getNumeroAparicoes(Dados, Target, "<=50K")
     if ganhaMais > ganhaMenos:
-        MaisComum = 'Yes'
+        MaisComum = '>50K'
     else:
-        MaisComum = 'No'
+        MaisComum = '<=50K'
     return MaisComum
 
 
@@ -42,19 +42,15 @@ def Excluir_vetor(vetor,atributo):
     return novoconjunto
 
 
-
-def ArvoreDecisao(Dados, Target, Atributos,default):
+def ArvoreDecisao(Dados, Target, Atributos, default):
     Root = Node()
-
-    #global num_nos
-    #num_nos = num_nos + 1
-    indice = calc.getIndiceAtributo(Dados,Target)
-    maior = "Yes"
-    menor = "No"
+    indice = calc.getIndiceAtributo(Dados, Target)
+    maior = ">50K"
+    menor = "<=50K"
     imaior = 0
     imenor = 0
     a = ""
-    for i in range (1,len(Dados)-1):
+    for i in range(1, len(Dados)):
         if imaior > 0 and imenor > 0:
             break
         elif Dados[i][indice] == maior:
@@ -62,42 +58,40 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
         elif Dados[i][indice] == menor:
             imenor = imenor + 1
     #### se tudo for igual
-    if imenor == len(Dados) -1 :
-        #return Tree.novo_no(menor)
+    if imenor == len(Dados) - 1:
+        # return Tree.novo_no(menor)
         return menor
-    elif imaior == len(Dados) -1:
-        #return Tree.novo_no(maior)
+    elif imaior == len(Dados) - 1:
+        # return Tree.novo_no(maior)
         return maior
 
     ##se acabarem os atributos
     if len(Atributos) == 1:
-        return ValorMaisComum(Dados,Target,Atributos)
-        #return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos))
+        return ValorMaisComum(Dados, Target, Atributos)
+        # return Tree.novo_no(ValorMaisComum(Dados,Target,Atributos))
     else:
-        a = MelhorAtributo(Dados,Atributos)
+        a = MelhorAtributo(Dados, Atributos)
         Root.atributo = a
         filhos = {}
-        #print("Atributo: " + a)
-        Valores_A = calc.getValoresAtributos(Dados,a)
-    #for ind in range(0,len(Atributos)):
-    #	if Atributos[ind]==a:
-    #		break
+        # print("Atributo: " + a)
+        Valores_A = calc.getValoresAtributos(Dados, a)
+        # for ind in range(0,len(Atributos)):
+        #  if Atributos[ind]==a:
+        #    break
 
-
-
-        for y in range (0,len(Valores_A)):
-            Subconjunto=[]
-            Subconjunto = calc.makeConjuntoAtributo(Dados,a,Valores_A[y])
-            #print("Valor: " +Valores_A[y])
+        for y in range(0, len(Valores_A)):
+            Subconjunto = []
+            Subconjunto = calc.makeConjuntoAtributo(Dados, a, Valores_A[y])
+            # print("Valor: " +Valores_A[y])
             if len(Subconjunto) == 1:
-                #print(ValorMaisComum(Dados,Target,Atributos))
+                # print(ValorMaisComum(Dados,Target,Atributos))
                 return Root
             else:
-                x= ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Root)
-                if x=='Yes' or x=='No':
-                    classe=Node()
-                    classe.atributo=x
-                    classe.numAcessos=0
+                x = ArvoreDecisao(Subconjunto, Target, Excluir_vetor(Atributos, a), Root)
+                if x == '<=50K' or x == '>50K':
+                    classe = Node()
+                    classe.atributo = x
+                    classe.numAcessos = 0
                     classe.filhos = {}
                     filhos[Valores_A[y]] = classe
                 else:
@@ -112,7 +106,7 @@ def classificador(Dados,Arvore):
     numeroExemplos = len(Dados)
     numAcertos = 0
     acuracia = 0
-    indiceClasse = calc.getIndiceAtributo(Dados,'play')
+    indiceClasse = calc.getIndiceAtributo(Dados,'X50k.year')
     for i in range(1,len(Dados)):
         classeExemplo = Dados[i][indiceClasse]
         classeReal = avaliaExemplo(Arvore, Dados[i], Dados)
@@ -137,7 +131,7 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
                 valorAtributoAux = a
         NoRaiz = NoRaiz.filhos[valorAtributoAux]
         nosVisitados += 1
-        if NoRaiz.atributo == 'Yes' or NoRaiz.atributo == 'No':
+        if NoRaiz.atributo == '<=50K' or NoRaiz.atributo == '>50K':
             NoRaiz.numAcessos = NoRaiz.numAcessos + 1
             return NoRaiz
     return NoRaiz
@@ -255,12 +249,12 @@ def poda (Root, Dados):
 
 
 def imprime(Root, caminho, rules,contador):
-    if Root.atributo =='Yes' or Root.atributo =="No":
+    if Root.atributo =='>50K' or Root.atributo =="<=50K":
       teste = ""
 
       for a in rules:
          teste= teste + a  + " "
-      teste = teste + 'THEN: '+Root.atributo + ' Num Acessos, ' + str(Root.numAcessos) + str('\n\n')
+      teste = teste + 'THEN: '+Root.atributo + ' Num Acessos, ' + str(Root.numAcessos)
       caminho.append(teste )
     else:
         if len(rules) == 0:
@@ -278,7 +272,7 @@ def imprime(Root, caminho, rules,contador):
 
 
 def ehNoPaiFolha(Root):
-    if Root.filhos[next(iter(Root.filhos))] =='No' or Root.filhos[next(iter(Root.filhos))] =="Yes" :
+    if Root.filhos[next(iter(Root.filhos))] =='<=50K' or Root.filhos[next(iter(Root.filhos))] ==">50K" :
         return True
 
 
@@ -294,11 +288,9 @@ def avaliaExemploMaisUsado(NoRaiz, Exemplo, Dados):
         valorAtributoExemplo = Exemplo[indiceAtributo]
         valorAtributoAux =""
         for a in NoRaiz.filhos:
-           if valorAtributoAux == "":
-              valorAtributoAux = a
-           elif valorAtributoExemplo == a:
-                valorAtributoAux = a
-                NoRaiz = NoRaiz.filhos[a]
+           valorAtributoAux = a
+           if valorAtributoExemplo == valorAtributoAux:
+                return avaliaExemploMaisUsado(NoRaiz.filhos[a],Exemplo,Dados)
     if len(NoRaiz.filhos) == 0:
         NoRaiz.numAcessos = NoRaiz.numAcessos + 1
         print('o numero de acessos a esse nó pai de folha é ' + str(NoRaiz.numAcessos))
@@ -313,7 +305,7 @@ def visitaPrintandoRegras(Raiz):
 
 def visita(Raiz, Caminho, NoPai):
     list = []
-    if Raiz.atributo == 'No' or Raiz.atributo == 'Yes':
+    if Raiz.atributo == '<=50K' or Raiz.atributo == '>50K':
         list.append("CLASSE:")
         list.append(Raiz)
         list.append("NUMACESSOS:")

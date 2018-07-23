@@ -32,7 +32,7 @@ def getProporcaoPositiva(dados):
     total = len(dados)
     positivos = 0
     for i in range (0, total):
-        if dados[i][tam] == 'Yes':
+        if dados[i][tam] == '>50K':
             positivos += 1
     proporcao = positivos/(total-1)  #total-1 pq header entra na contagem do vetor
     proporcao = round(proporcao,6)
@@ -43,7 +43,7 @@ def getProporcaoNegativa(dados):
     total = len(dados)
     negativos = 0
     for i in range (0, total):
-        if dados[i][tam] == 'No':
+        if dados[i][tam] == '<=50K':
             negativos += 1
     proporcao = negativos/(total-1) #total-1 pq header entra na contagem do vetor
     proporcao = round(proporcao,6)
