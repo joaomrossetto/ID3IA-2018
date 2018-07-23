@@ -1,7 +1,7 @@
 from __future__ import division
 import pandas as pd
 import arvoreDecisao as decisao
-import validacao_cruzada as vc
+##import validacao_cruzada as vc
 
 tenis = pd.read_csv('playtennis.csv', sep=',', header = None)
 tenis = tenis.values
@@ -13,6 +13,7 @@ decisao.imprime(Root,caminho,rules,contador)
 print(caminho)
 print('só pra debugar')
 decisao.classificador(tenis, Root)
+x=Root
 listaRegras = []
 decisao.visitaPrintandoRegras(Root)
 print(listaRegras)

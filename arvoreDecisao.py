@@ -1,6 +1,7 @@
 from __future__ import division
 import calcEntropy as calc
 from Node import Node
+from Classe import Classe
 from copy import deepcopy
 import pickle
 import random
@@ -92,7 +93,16 @@ def ArvoreDecisao(Dados, Target, Atributos,default):
                 #print(ValorMaisComum(Dados,Target,Atributos))
                 return Root
             else:
-                filhos[Valores_A[y]] = ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Root)
+                x= ArvoreDecisao(Subconjunto,Target,Excluir_vetor(Atributos,a),Root)
+                if x=='Yes' or x=='No':
+                    classe=Node()
+                    classe.atributo=x
+                    classe.numAcessos=0
+                    classe.filhos = {}
+                    filhos[Valores_A[y]] = classe
+                else:
+                    filhos[Valores_A[y]] = x
+
                 Root.label = Valores_A[y]
                 Root.filhos = filhos
 
@@ -127,7 +137,8 @@ def avaliaExemplo(NoRaiz, Exemplo, Dados):
                 valorAtributoAux = a
         NoRaiz = NoRaiz.filhos[valorAtributoAux]
         nosVisitados += 1
-        if NoRaiz == 'Yes' or NoRaiz == 'No':
+        if NoRaiz.atributo == 'Yes' or NoRaiz.atributo == 'No':
+            NoRaiz.numAcessos = NoRaiz.numAcessos + 1
             return NoRaiz
     return NoRaiz
 
@@ -148,7 +159,7 @@ def getRegrasRec(No, RegraAteEntao, regras, Indice):
             if No == '<=50K' or No == '>50K':
                 RegraAteEntao.append(No)
                 regras.append(RegraAteEntao)
-                indice += 1
+                ##indice += 1
                 return
             getRegrasRec(No.filhos[Indice], RegraAteEntao, regras, Indice)
 
@@ -244,13 +255,13 @@ def poda (Root, Dados):
 
 
 def imprime(Root, caminho, rules,contador):
-    if Root =='Yes' or Root =="No":
-      contador[0] = contador[0] + 1
+    if Root.atributo =='Yes' or Root.atributo =="No":
       teste = ""
+
       for a in rules:
          teste= teste + a  + " "
-      teste = teste + 'THEN: '+Root
-      caminho.append(teste)
+      teste = teste + 'THEN: '+Root.atributo 
+      caminho.append(teste )
     else:
         if len(rules) == 0:
            x='IF '
@@ -306,7 +317,7 @@ def visitaPrintandoRegras(Raiz):
 
 def visita(Raiz, Caminho, NoPai):
     list = []
-    if Raiz == 'No' or Raiz == 'Yes':
+    if Raiz.atributo == 'No' or Raiz.atributo == 'Yes':
         list.append("CLASSE:")
         list.append(Raiz)
         list.append("NUMACESSOS:")
