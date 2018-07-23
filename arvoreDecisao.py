@@ -44,7 +44,8 @@ def Excluir_vetor(vetor,atributo):
 
 def ArvoreDecisao(Dados, Target, Atributos, default):
     Root = Node()
-    indice = calc.getIndiceAtributo(Dados, Target)
+
+    indice = 13#calc.getIndiceAtributo(Dados, Target)
     maior = ">50K"
     menor = "<=50K"
     imaior = 0
@@ -255,7 +256,8 @@ def imprime(Root, caminho, rules,contador):
       for a in rules:
          teste= teste + a  + " "
       teste = teste + 'THEN: '+Root.atributo + ' Num Acessos, ' + str(Root.numAcessos)
-      caminho.append(teste )
+      if Root.numAcessos > 10:
+        caminho.append(teste )
     else:
         if len(rules) == 0:
            x='IF '
