@@ -119,7 +119,7 @@ def classificador(Dados,Arvore):
         if classeExemplo == classeReal:
             numAcertos += 1
         acuracia = numAcertos/(numeroExemplos-1)
-    #print("A acuracia foi de :",acuracia)
+    print("A acuracia foi de :",acuracia)
     return acuracia
 
 
@@ -260,7 +260,7 @@ def imprime(Root, caminho, rules,contador):
 
       for a in rules:
          teste= teste + a  + " "
-      teste = teste + 'THEN: '+Root.atributo 
+      teste = teste + 'THEN: '+Root.atributo + ' Num Acessos, ' + str(Root.numAcessos) + str('\n\n')
       caminho.append(teste )
     else:
         if len(rules) == 0:
@@ -283,7 +283,6 @@ def ehNoPaiFolha(Root):
 
 
 def getCaminhosMaisUsados(Dados,Arvore):
-    indiceClasse = calc.getIndiceAtributo(Dados,'play')
     for i in range(1,len(Dados)):
         avaliaExemploMaisUsado(Arvore, Dados[i], Dados)
 
@@ -299,13 +298,10 @@ def avaliaExemploMaisUsado(NoRaiz, Exemplo, Dados):
               valorAtributoAux = a
            elif valorAtributoExemplo == a:
                 valorAtributoAux = a
-        if NoRaiz != 'No' or NoRaiz != 'Yes':
-            if ehNoPaiFolha(NoRaiz):
-                NoRaiz.numAcessos = NoRaiz.numAcessos + 1
-                print('o numero de acessos a esse nó pai de folha é ' + str(NoRaiz.numAcessos))
-        NoRaiz = NoRaiz.filhos[valorAtributoAux]
-        if NoRaiz == 'No' or NoRaiz == 'Yes':
-            return NoRaiz
+                NoRaiz = NoRaiz.filhos[a]
+    if len(NoRaiz.filhos) == 0:
+        NoRaiz.numAcessos = NoRaiz.numAcessos + 1
+        print('o numero de acessos a esse nó pai de folha é ' + str(NoRaiz.numAcessos))
     return NoRaiz
 
 

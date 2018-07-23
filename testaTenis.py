@@ -9,11 +9,13 @@ Root = decisao.ArvoreDecisao(tenis,'play',tenis[0],0)
 caminho = []
 rules = []
 contador = [0,0]
-decisao.imprime(Root,caminho,rules,contador)
 print(caminho)
 print('só pra debugar')
-decisao.classificador(tenis, Root)
+#decisao.classificador(tenis, Root)
 x=Root
-listaRegras = []
-decisao.visitaPrintandoRegras(Root)
-print(listaRegras)
+#listaRegras = []
+#decisao.visitaPrintandoRegras(Root)
+decisao.getCaminhosMaisUsados(tenis, Root)
+decisao.imprime(Root,caminho,rules,contador)
+
+#print(listaRegras)

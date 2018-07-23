@@ -1,10 +1,9 @@
 outlook,temp,humidity,wind,play
-outlook,temp,humidity,wind,play
-outlook,temp,humidity,wind,play
-outlook,temp,humidity,wind,play
-outlook,temp,humidity,wind,play
-outlook,temp,humidity,wind,play
 Sunny,Hot,High,Weak,No
+Rain,Mild,High,Weak,Yes
+Rain,Mild,High,Weak,Yes
+Rain,Mild,High,Weak,Yes
+Rain,Mild,High,Weak,Yes
 Sunny,Hot,High,Strong,No
 Overcast,Hot,High,Weak,Yes
 Rain,Mild,High,Weak,Yes
